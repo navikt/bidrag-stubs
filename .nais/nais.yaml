@@ -36,9 +36,4 @@ spec:
   {{#each ingresses as |url|}}
     - {{url}}
   {{/each}}
-  env:
-    - name: BIDRAG_PERSON_URL
-      value: https://{{ azure.person }}
-    - name: BIDRAG_PERSON_SCOPE
-      value: {{ azure.person_clientid }}
 

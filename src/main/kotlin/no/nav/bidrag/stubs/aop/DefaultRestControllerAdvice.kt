@@ -1,4 +1,4 @@
-package no.nav.bidrag.template.aop
+package no.nav.bidrag.stubs.aop
 
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpHeaders

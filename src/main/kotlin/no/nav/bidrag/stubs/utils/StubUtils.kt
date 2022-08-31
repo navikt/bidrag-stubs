@@ -1,4 +1,4 @@
-package no.nav.bidrag.template.utils
+package no.nav.bidrag.stubs.utils
 
 import com.fasterxml.jackson.databind.JavaType
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper

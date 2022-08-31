@@ -1,4 +1,4 @@
-package no.nav.bidrag.template.controller
+package no.nav.bidrag.stubs.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import no.nav.bidrag.regnskap.model.KravRequest
 import no.nav.bidrag.regnskap.model.KravResponse
-import no.nav.bidrag.template.service.SkattStubService
+import no.nav.bidrag.stubs.service.SkattStubService
 import no.nav.security.token.support.core.api.Protected
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping

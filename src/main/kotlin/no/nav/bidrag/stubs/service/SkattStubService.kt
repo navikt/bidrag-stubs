@@ -1,8 +1,8 @@
-package no.nav.bidrag.template.service
+package no.nav.bidrag.stubs.service
 
 import no.nav.bidrag.regnskap.model.KravRequest
 import no.nav.bidrag.regnskap.model.KravResponse
-import no.nav.bidrag.template.utils.StubUtils
+import no.nav.bidrag.stubs.utils.StubUtils
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service

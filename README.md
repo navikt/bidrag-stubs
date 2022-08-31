@@ -4,7 +4,8 @@
 
 ## Beskrivelse
 
-Bidrag-stubs er en applikasjon for å tilby stubber mot eksterne eller interne endepunkter.
+Bidrag-stubs er en applikasjon for å tilby stubber mot eksterne eller interne endepunkter. Bidrag-stubs lever kun på https://bidrag-stubs.dev.intern.nav.no og kan ikke prodsettes.
+
 
 Applikasjon tilbyr stubber for følgende endepunkter:
 
@@ -15,8 +16,8 @@ Applikasjon tilbyr stubber for følgende endepunkter:
 
 ## Kjøre applikasjonen lokalt
 
-Start opp applikasjonen ved å kjøre [BidragStubsLocal.kt](src/test/kotlin/no/nav/bidrag/template/BidragStubsLocal.kt).
-Dette starter applikasjonen med profil `local` og henter miljøvariabler for Q1 miljøet fra filen [application-local.yaml](src/test/resources/application-local.yaml).
+Start opp applikasjonen ved å kjøre [BidragStubsLocal.kt](src/test/kotlin/no/nav/bidrag/stubs/BidragStubsLocal.kt).
+Dette starter applikasjonen med profil `local` og henter miljøvariabler fra filen [application-local.yaml](src/test/resources/application-local.yaml).
 
 Her mangler det noen miljøvariabler som ikke bør committes til Git (Miljøvariabler for passord/secret osv).<br/>
 Når du starter applikasjon må derfor følgende miljøvariabl(er) settes:
