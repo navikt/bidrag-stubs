@@ -1,4 +1,4 @@
-package no.nav.bidrag.template.aop
+package no.nav.bidrag.stubs.aop
 
 import no.nav.security.token.support.spring.validation.interceptor.JwtTokenUnauthorizedException
 import org.slf4j.LoggerFactory
@@ -29,11 +29,7 @@ class DefaultRestControllerAdvice {
     @ExceptionHandler(JwtTokenUnauthorizedException::class)
     fun handleUnauthorizedException(exception: JwtTokenUnauthorizedException): ResponseEntity<*> {
         LOGGER.warn("Ugyldig eller manglende sikkerhetstoken", exception)
-        return ResponseEntity
-            .status(HttpStatus.UNAUTHORIZED)
-            .header(HttpHeaders.WARNING, "Ugyldig eller manglende sikkerhetstoken")
-            .build<Any>()
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+            .header(HttpHeaders.WARNING, "Ugyldig eller manglende sikkerhetstoken").build<Any>()
     }
-
-
 }

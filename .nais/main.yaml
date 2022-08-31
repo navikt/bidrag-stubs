@@ -1,7 +1,3 @@
-name: bidrag-template-spring
+name: bidrag-stubs
 ingresses:
-  - https://bidrag-template-spring.dev.adeo.no
-  - https://bidrag-template-spring.dev.intern.nav.no
-azure:
-  person: bidrag-person.dev-fss-pub.nais.io
-  person_clientid: dev-fss.bidrag.bidrag-person
+  - https://bidrag-stubs.dev.intern.nav.no

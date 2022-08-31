@@ -1,19 +1,23 @@
-# Bidrag-template-spring
-Template repo for å opprette ny Spring applikasjon for Bidrag
+# Bidrag-stubs
 
-[![continuous integration](https://github.com/navikt/bidrag-template-spring/actions/workflows/ci.yaml/badge.svg)](https://github.com/navikt/bidrag-dialog/actions/workflows/ci.yaml)
-[![release bidrag-template-spring](https://github.com/navikt/bidrag-template-spring/actions/workflows/release.yaml/badge.svg)](https://github.com/navikt/bidrag-dialog/actions/workflows/release.yaml)
+[![continuous integration](https://github.com/navikt/bidrag-stubs/actions/workflows/ci.yaml/badge.svg)](https://github.com/navikt/bidrag-stubs/actions/workflows/ci.yaml)
 
 ## Beskrivelse
 
-Erstatt alt som har postfix `-template-spring` med din applikasjonsnavn
+Bidrag-stubs er en applikasjon for å tilby stubber mot eksterne eller interne endepunkter. Bidrag-stubs lever kun på https://bidrag-stubs.dev.intern.nav.no og kan ikke prodsettes.
 
-Legg til Github secret `NAIS_DEPLOY_APIKEY` hvor secret hentes fra [Api key](https://deploy.nais.io/apikeys)
+
+Applikasjon tilbyr stubber for følgende endepunkter:
+
+| Endepunkt              | Beskrivelse                                                                                                                                                                                                                                           | Responser                                                       | Testdata                                   |
+|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|--------------------------------------------|
+| ekstern/skatt/api/krav | Endepunkt for motak av krav fra Bidrag-Regnskap som skal sendes til Skatteetaten.<br/> Stubben er konstruert slik at kall med delytelsesId som ikke finnes i testdata<br/>returnerer OK, mens delytelsesId'er som finnes returnerer en konteringfeil. | 200: Tom response body<br/>400: Liste over feilede konteringer  | delytelsesId: <br/>123456789<br/>123456780 |
+
 
 ## Kjøre applikasjonen lokalt
 
-Start opp applikasjonen ved å kjøre [BidragTemplateLocal.kt](src/test/kotlin/no/nav/bidrag/template/BidragTemplateLocal.kt).
-Dette starter applikasjonen med profil `local` og henter miljøvariabler for Q1 miljøet fra filen [application-local.yaml](src/test/resources/application-local.yaml).
+Start opp applikasjonen ved å kjøre [BidragStubsLocal.kt](src/test/kotlin/no/nav/bidrag/stubs/BidragStubsLocal.kt).
+Dette starter applikasjonen med profil `local` og henter miljøvariabler fra filen [application-local.yaml](src/test/resources/application-local.yaml).
 
 Her mangler det noen miljøvariabler som ikke bør committes til Git (Miljøvariabler for passord/secret osv).<br/>
 Når du starter applikasjon må derfor følgende miljøvariabl(er) settes:
@@ -23,7 +27,7 @@ Når du starter applikasjon må derfor følgende miljøvariabl(er) settes:
 ```
 Disse kan hentes ved å kjøre kan hentes ved å kjøre 
 ```bash
-kubectl exec --tty deployment/bidrag-dialog-feature -- printenv | grep -e AZURE_APP_CLIENT_ID -e AZURE_APP_CLIENT_SECRET
+kubectl exec --tty deployment/bidrag-stubs -- printenv | grep -e AZURE_APP_CLIENT_ID -e AZURE_APP_CLIENT_SECRET
 ```
 
 ### Live reload

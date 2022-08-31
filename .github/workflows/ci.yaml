@@ -18,7 +18,7 @@ jobs:
       - uses: navikt/bidrag-docker/exists@v1
         id: dockerimage
         with:
-          image_name: bidrag-template-spring
+          image_name: bidrag-stubs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: echo NOT_FOUND=${{ steps.dockerimage.outputs.not_found }} >> $GITHUB_ENV
@@ -56,22 +56,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           path: deploy
-      - name: Deploy main branch to dev-gcp
-        if: github.ref == 'refs/heads/main'
+      - name: Deploy to dev-gcp
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: deploy/.nais/nais.yaml
           VARS: deploy/.nais/main.yaml
-      - name: Deploy feature to dev-gcp
-        if: github.ref != 'refs/heads/main'
-        uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: dev-gcp
-          RESOURCE: deploy/.nais/nais.yaml
-          VARS: deploy/.nais/feature.yaml
 
   bump_dev_version:
     runs-on: ubuntu-latest
