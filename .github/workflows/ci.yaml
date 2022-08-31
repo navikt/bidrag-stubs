@@ -71,7 +71,7 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: deploy/.nais/nais.yaml
-          VARS: deploy/.nais/feature.yaml
+          VARS: deploy/.nais/main.yaml
 
   bump_dev_version:
     runs-on: ubuntu-latest

@@ -1,22 +1,21 @@
 package no.nav.bidrag.template
 
 import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+import org.springframework.context.annotation.EnableAspectJAutoProxy
+import org.springframework.test.context.ActiveProfiles
 
-const val PROFILE_NAIS = "nais"
-val SECURE_LOGGER: Logger = LoggerFactory.getLogger("secureLogger")
-
+@ActiveProfiles("local")
 @SpringBootApplication(exclude = [SecurityAutoConfiguration::class, ManagementWebSecurityAutoConfiguration::class])
+@EnableAspectJAutoProxy
 @EnableJwtTokenValidation(ignore = ["org.springframework", "org.springdoc"])
-class BidragDialog
+class BidragStubsLocal
 
 fun main(args: Array<String>) {
-    val app = SpringApplication(BidragDialog::class.java)
-    app.setAdditionalProfiles(if (args.isEmpty()) PROFILE_NAIS else args[0])
+    val app = SpringApplication(BidragStubsLocal::class.java)
+    app.setAdditionalProfiles("local", "nais")
     app.run(*args)
 }

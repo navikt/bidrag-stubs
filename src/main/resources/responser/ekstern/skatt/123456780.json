@@ -1,0 +1,13 @@
+{
+  "konteringsfeil": [
+    {
+      "feilkode": "ANNEN",
+      "feilmelding": "Annen feil.",
+      "konteringId": {
+        "transaksjonskode": "B3",
+        "periode": "2022-01",
+        "delytelsesId": "123456780"
+      }
+    }
+  ]
+}
