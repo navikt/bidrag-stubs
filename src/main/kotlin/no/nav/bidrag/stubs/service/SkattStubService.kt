@@ -15,8 +15,8 @@ class SkattStubService(var stubUtils: StubUtils) {
 
     fun lagreKrav(kravRequest: KravRequest): ResponseEntity<KravResponse> {
         kravRequest.konteringer.forEach {
-            if(stubUtils.hentAlleFilnavn(RESOURCES_FILPLASSERING).contains(it.delytelsesId)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(stubUtils.jsonToObject(RESOURCES_FILPLASSERING + it.delytelsesId, KravResponse::class.java))
+            if(stubUtils.finnesFil(RESOURCES_FILPLASSERING, it.delytelsesId)) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(stubUtils.jsonToObject(RESOURCES_FILPLASSERING, it.delytelsesId, KravResponse::class.java))
             }
         }
         return ResponseEntity(HttpStatus.OK)

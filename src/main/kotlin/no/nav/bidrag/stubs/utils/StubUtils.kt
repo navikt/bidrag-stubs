@@ -2,43 +2,38 @@ package no.nav.bidrag.stubs.utils
 
 import com.fasterxml.jackson.databind.JavaType
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import org.springframework.core.io.ResourceLoader
+import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
-import java.io.File
+import java.io.BufferedReader
 import java.io.IOException
-import java.nio.file.Paths
+import java.io.InputStreamReader
+import java.util.stream.Collectors
 
 
 @Component
-class StubUtils(var resourceLoader: ResourceLoader) {
+class StubUtils() {
 
-  fun hentAlleFilnavn(endepunkt: String): List<String> {
-    val filnavnListe = mutableListOf<String>()
-
-    File(hentPathResponserForEndepunkt(endepunkt)).walk()
-      .filter { item -> item.toString().endsWith(".json") }.forEach {
-        filnavnListe.add(it.nameWithoutExtension)
-      }
-    return filnavnListe
-  }
-
-  fun <T> jsonToObject(path: String, kClass: Class<*>?): T? {
+  fun <T> jsonToObject(path: String, filnavn: String, kClass: Class<*>?): T? {
     val objectMapper = jacksonObjectMapper()
 
     val returKlasse: T
     val javaType: JavaType = objectMapper.typeFactory.constructType(kClass)
     returKlasse = try {
-      objectMapper.readValue(hentJsonString(path), javaType)
+      objectMapper.readValue(hentClassPathResourceSomJsonString(path, filnavn), javaType)
     } catch (e: IOException) {
       throw IllegalStateException(e.message, e)
     }
     return returKlasse
   }
-
-  private fun hentPathResponserForEndepunkt(endepunkt: String) =
-    Paths.get("").toAbsolutePath().toString() + "/src/main/resources/" + endepunkt
-
-  private fun hentJsonString(path: String): String {
-    return resourceLoader.getResource("classpath:$path.json").file.readText(charset = Charsets.UTF_8)
+  fun hentClassPathResourceSomJsonString(path: String, filnavn: String): String {
+    javaClass.getResourceAsStream("/$path$filnavn.json")!!.use { inputStream ->
+      BufferedReader(InputStreamReader(inputStream)).use { reader ->
+        return reader.lines().collect(Collectors.joining(System.lineSeparator()))
+      }
+    }
+  }
+  fun finnesFil(path: String, filnavn: String): Boolean {
+    javaClass.getResource("/$path$filnavn.json")?.let { return true }
+    return false
   }
 }
