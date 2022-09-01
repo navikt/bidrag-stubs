@@ -1,3 +1,9 @@
 name: bidrag-stubs
-ingresses:
-  - https://bidrag-stubs.dev.intern.nav.no
+ingress: https://bidrag-stubs.dev.intern.nav.no
+azureAccessInbound:
+  - application: bidrag-regnskap-feature
+    namespace: bidrag
+    cluster: dev-gcp
+  - application: bidrag-regnskap
+    namespace: bidrag
+    cluster: dev-gcp

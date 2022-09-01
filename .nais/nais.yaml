@@ -31,7 +31,13 @@ spec:
       cpu: 500m
       memory: 1024Mi
   ingresses:
-  {{#each ingresses as |url|}}
-    - {{url}}
-  {{/each}}
+    - {{ ingress }}
+  accessPolicy:
+    inbound:
+      rules:
+      {{#each azureAccessInbound}}
+        - application: {{this.application}}
+          namespace: {{this.namespace}}
+          cluster: {{this.cluster}}
+      {{/each}}
 
