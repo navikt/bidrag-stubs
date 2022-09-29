@@ -21,7 +21,7 @@ class SkattStubService(var stubUtils: StubUtils) {
                 return ResponseEntity.badRequest().body(kravResponse)
             }
         }
-        return ResponseEntity.ok(KravVellykket(opprettBatchUid()))
+        return ResponseEntity.accepted().body(KravVellykket(opprettBatchUid()))
     }
 
     fun opprettBatchUid(): String {
