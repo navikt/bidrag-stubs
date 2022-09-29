@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import no.nav.bidrag.regnskap.model.KravRequest
-import no.nav.bidrag.regnskap.model.KravResponse
 import no.nav.bidrag.stubs.service.SkattStubService
 import no.nav.security.token.support.core.api.Protected
 import org.springframework.http.ResponseEntity
@@ -30,9 +29,9 @@ class SkattStubController(val skattStubService: SkattStubService
     )
     @ApiResponses(
         value = [
-            ApiResponse(responseCode = "200",
-                description = "Alle konteringer ble oppdatert OK. Tom response body.",
-                content = [Content()]),
+            ApiResponse(responseCode = "202",
+                description = "Alle konteringer ble overført OK. Returnerer en BatchUid."
+            ),
             ApiResponse(responseCode = "400",
                 description = "En av konteringene gikk ikke gjennom validering. Liste over feilede konteringer returneres."),
             ApiResponse(responseCode = "401",
@@ -43,11 +42,16 @@ class SkattStubController(val skattStubService: SkattStubService
                 description = "Sikkerhetstoken er ikke gyldig, eller det er ikke gitt adgang til kode 6 og 7 (nav-ansatt)",
                 content = [Content()]
             ),
+            ApiResponse(
+                responseCode = "503",
+                description = "Påløpsmodusen er på. Eller en annen feil..",
+                content = [Content()]
+            )
         ]
     )
     @Tag(name = "ekstern")
     @ResponseBody
-    fun lagreKrav (@RequestBody kravRequest: KravRequest): ResponseEntity<KravResponse> {
+    fun lagreKrav (@RequestBody kravRequest: KravRequest): ResponseEntity<*> {
         return skattStubService.lagreKrav(kravRequest)
     }
 

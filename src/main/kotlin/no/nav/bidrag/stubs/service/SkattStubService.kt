@@ -2,10 +2,11 @@ package no.nav.bidrag.stubs.service
 
 import no.nav.bidrag.regnskap.model.KravRequest
 import no.nav.bidrag.regnskap.model.KravResponse
+import no.nav.bidrag.regnskap.model.KravVellykket
 import no.nav.bidrag.stubs.utils.StubUtils
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class SkattStubService(var stubUtils: StubUtils) {
@@ -13,12 +14,17 @@ class SkattStubService(var stubUtils: StubUtils) {
         const val RESOURCES_FILPLASSERING = "responser/ekstern/skatt/"
     }
 
-    fun lagreKrav(kravRequest: KravRequest): ResponseEntity<KravResponse> {
+    fun lagreKrav(kravRequest: KravRequest): ResponseEntity<*> {
         kravRequest.konteringer.forEach {
             if(stubUtils.finnesFil(RESOURCES_FILPLASSERING, it.delytelsesId)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(stubUtils.jsonToObject(RESOURCES_FILPLASSERING, it.delytelsesId, KravResponse::class.java))
+                val kravResponse: KravResponse? = stubUtils.jsonToObject(RESOURCES_FILPLASSERING, it.delytelsesId, KravResponse::class.java)
+                return ResponseEntity.badRequest().body(kravResponse)
             }
         }
-        return ResponseEntity(HttpStatus.OK)
+        return ResponseEntity.ok(KravVellykket(opprettBatchUid()))
+    }
+
+    fun opprettBatchUid(): String {
+        return UUID.randomUUID().toString()
     }
 }

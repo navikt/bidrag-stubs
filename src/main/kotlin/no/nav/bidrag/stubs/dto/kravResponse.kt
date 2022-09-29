@@ -2,6 +2,12 @@ package no.nav.bidrag.regnskap.model
 
 import io.swagger.v3.oas.annotations.media.Schema
 
+
+@Schema(name = "KravVellykket", description = "Returneres ved velykket overføring av krav.")
+data class KravVellykket(
+  val batchUid: String
+)
+
 @Schema(name = "Kravfeil", description = "Lister feil i et krav.")
 data class KravResponse(
   val konteringsfeil: List<Konteringsfeil>
