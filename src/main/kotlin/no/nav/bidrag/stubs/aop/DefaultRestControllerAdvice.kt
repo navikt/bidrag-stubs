@@ -11,25 +11,25 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class DefaultRestControllerAdvice {
-    companion object {
-        private val LOGGER = LoggerFactory.getLogger(DefaultRestControllerAdvice::class.java)
-    }
+  companion object {
+    private val LOGGER = LoggerFactory.getLogger(DefaultRestControllerAdvice::class.java)
+  }
 
-    @ResponseBody
-    @ExceptionHandler(Exception::class)
-    fun handleOtherExceptions(exception: Exception): ResponseEntity<*> {
-        LOGGER.warn("Det skjedde en ukjent feil", exception)
-        return ResponseEntity
-            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .header(HttpHeaders.WARNING, "Det skjedde en ukjent feil: ${exception.message}")
-            .build<Any>()
-    }
+  @ResponseBody
+  @ExceptionHandler(Exception::class)
+  fun handleOtherExceptions(exception: Exception): ResponseEntity<*> {
+    LOGGER.warn("Det skjedde en ukjent feil", exception)
+    return ResponseEntity
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .header(HttpHeaders.WARNING, "Det skjedde en ukjent feil: ${exception.message}")
+      .build<Any>()
+  }
 
-    @ResponseBody
-    @ExceptionHandler(JwtTokenUnauthorizedException::class)
-    fun handleUnauthorizedException(exception: JwtTokenUnauthorizedException): ResponseEntity<*> {
-        LOGGER.warn("Ugyldig eller manglende sikkerhetstoken", exception)
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-            .header(HttpHeaders.WARNING, "Ugyldig eller manglende sikkerhetstoken").build<Any>()
-    }
+  @ResponseBody
+  @ExceptionHandler(JwtTokenUnauthorizedException::class)
+  fun handleUnauthorizedException(exception: JwtTokenUnauthorizedException): ResponseEntity<*> {
+    LOGGER.warn("Ugyldig eller manglende sikkerhetstoken", exception)
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+      .header(HttpHeaders.WARNING, "Ugyldig eller manglende sikkerhetstoken").build<Any>()
+  }
 }

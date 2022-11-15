@@ -19,13 +19,15 @@ data class Konteringsfeil(
   @field:Schema(
     description = "En kode som angir type feil som har oppstått. " +
         "Feilkoden er ment å kunne brukes til å maskinelt sortere feil.",
-    example = "TOLKNING")
+    example = "TOLKNING"
+  )
   val feilkode: String,
 
   @field:Schema(
     description = "En beskrivelse av feilen som har oppstått. " +
         "Feilmeldingen er ment å være forståelig for et menneske ved manuell gjennomgang.",
-    example = "Tolkning feilet i Elin.")
+    example = "Tolkning feilet i Elin."
+  )
   val feilmelding: String,
 
   @field:Schema(description = "Identifiserer hvilken kontering som førte til feilen.")
@@ -46,10 +48,12 @@ data class KonteringId(
   )
   val periode: String,
 
-  @field:Schema(description = "Unik referanse til perioden i vedtaket. " +
-      "I bidragssaken kan en periode strekke over flere måneder, og samme referanse blir da benyttet for alle månedene. " +
-      "Samme referanse kan ikke benyttes to ganger for samme transaksjonskode i samme måned.",
+  @field:Schema(
+    description = "Unik referanse til perioden i vedtaket. " +
+        "I bidragssaken kan en periode strekke over flere måneder, og samme referanse blir da benyttet for alle månedene. " +
+        "Samme referanse kan ikke benyttes to ganger for samme transaksjonskode i samme måned.",
     example = "123456789",
-    required = true)
+    required = true
+  )
   val delytelsesId: String
 )

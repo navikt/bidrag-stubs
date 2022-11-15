@@ -182,8 +182,10 @@ enum class Transaksjonskode(beskrivelse: String, korreksjonskode: Boolean) {
   K3("Tilbakekreving ettergivelse", false),
 }
 
-@Schema(description = "Konteringstypen er NY for nye konteringer for en stønad i en periode. " +
-    "Deretter skal alle konteringer for samme stønad i samme periode markere ENDRING, altså B3-konteringen og for alle påfølgende B1-konteringer.")
+@Schema(
+  description = "Konteringstypen er NY for nye konteringer for en stønad i en periode. " +
+      "Deretter skal alle konteringer for samme stønad i samme periode markere ENDRING, altså B3-konteringen og for alle påfølgende B1-konteringer."
+)
 enum class Type {
   NY, ENDRING
 }
