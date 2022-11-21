@@ -1,12 +1,12 @@
-package no.nav.bidrag.stubs.controller
+package no.nav.bidrag.stubs.skatt.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
-import no.nav.bidrag.regnskap.model.KravRequest
-import no.nav.bidrag.stubs.service.SkattStubService
+import no.nav.bidrag.stubs.skatt.dto.krav.Krav
+import no.nav.bidrag.stubs.skatt.service.SkattStubService
 import no.nav.security.token.support.core.api.ProtectedWithClaims
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -46,15 +46,20 @@ class SkattStubController(
         content = [Content()]
       ),
       ApiResponse(
+        responseCode = "500",
+        description = "Ukjent feil.",
+        content = [Content()]
+      ),
+      ApiResponse(
         responseCode = "503",
-        description = "Påløpsmodusen er på. Eller en annen feil..",
+        description = "Påløpsmodusen er på.",
         content = [Content()]
       )
     ]
   )
   @Tag(name = "ekstern")
   @ResponseBody
-  fun lagreKrav(@RequestBody kravRequest: KravRequest): ResponseEntity<*> {
-    return skattStubService.lagreKrav(kravRequest)
+  fun lagreKrav(@RequestBody krav: Krav): ResponseEntity<*> {
+    return skattStubService.lagreKrav(krav)
   }
 }

@@ -1,26 +1,30 @@
-package no.nav.bidrag.regnskap.model
+package no.nav.bidrag.stubs.skatt.dto.kontering
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.datatype.jsr310.deser.YearMonthDeserializer
 import com.fasterxml.jackson.datatype.jsr310.ser.YearMonthSerializer
 import io.swagger.v3.oas.annotations.media.Schema
+import no.nav.bidrag.stubs.skatt.dto.enumer.SøknadType
+import no.nav.bidrag.stubs.skatt.dto.enumer.Transaksjonskode
+import no.nav.bidrag.stubs.skatt.dto.enumer.Type
 import org.springframework.format.annotation.DateTimeFormat
+import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.YearMonth
 
-const val KRAV_BESKRIVELSE =
-  "Operasjon for å levere krav fra NAV til regnskapet hos Skatteetaten. " + "Et krav består av en liste med konteringer. Det forventes at disse konteringen behandles samlet. " + "Det vil si at hvis én av konteringene feiler, skal ingen av konteringene i kravet benyttes.\n" + "\n" + "Dersom et krav feiler kan det forsøkes overført på nytt gjentatte ganger inntil kravet er overført. " + "Krav som gjelder samme fagsak må leveres i korrekt rekkefølge. " + "Feiler et krav i en sak, skal ikke senere krav i samme sak overføres. " + "Senere krav i andre saker kan overføres, selv om noen av partene fra den feilende fagsaken er involvert.\n" + "\n" + "Det forventes at et krav alltid inneholder de samme konteringene. " + "Dersom et nytt vedtak fører til et nytt krav som venter på et tidligere feilende krav, skal ikke konteringene fra det seneste kravet slås sammen med det ventende kravet.\n" + "\n" + "NAV har ansvar for å manuelt følge opp krav som ved flere forsøk ikke kan overføres, og vil løse opp i problemet i samarbeid med Skatteetaten.\n" + "\n" + "Ved månedlig påløp skal ikke dette grensesnittet benyttes. " + "Tilsvarende krav legges i stedet inn i en fil som overføres til Skatteetaten gjennom filslusa.\n" + "\n" + "Formatet på påløpsfilen skal være tilsvarende det nye grensesnittet, men hvor hvert krav legges inn på egen linje."
-
-@Schema(name = "Krav", description = "Et krav består av en liste med konteringer.")
-data class KravRequest(
-  val konteringer: List<Konteringer>
-)
 
 @Schema(
-  description = "En kontering angir hvor mye som skal betales av skyldner til mottaker på vegne av kravhaver.\n" + "\nKonteringen kan unikt identifiseres med kombinasjonen transaksjonskode, delytelsesId og periode. " + "Det forutsettes at delytelsesid'n er unik også på tvers av fagsystemid'er.\n" + "\nPersonidenter for gjelderIdent, kravhaverIdent, mottakerIdent og skyldnerIdent angis med enten FNR eller DNR. " + "(Håndtering av BNR og NPID er uavklart.) Aktoernummer kan benyttes i kravhaverIdent, mottakerIdent og skyldnerIdent. " + "Aktoernummere er elleve siffer og starter med enten 8 eller 9.\n" + "\nI testmiljøene må Tenor-identer støttes i stedet for FNR/DNR. Disse identene har 8 eller 9 i tredje siffer."
+  description = "\t\n" +
+      "En kontering angir hvor mye som skal betales av skyldner til mottaker på vegne av kravhaver.\n" +
+      "\n" +
+      "Konteringen kan unikt identifiseres med kombinasjonen transaksjonskode, delytelsesId og periode. Det forutsettes at delytelsesid'n er unik også på tvers av fagsystemid'er.\n" +
+      "\n" +
+      "Personidenter for gjelderIdent, kravhaverIdent, mottakerIdent og skyldnerIdent angis med enten FNR eller DNR. (Håndtering av BNR og NPID er uavklart.) Aktoernummer kan benyttes i kravhaverIdent, mottakerIdent og skyldnerIdent. Aktoernummere er elleve siffer og starter med enten 8 eller 9.\n" +
+      "\n" +
+      "I testmiljøene må Tenor-identer støttes i stedet for FNR/DNR. Disse identene har 8 eller 9 i tredje siffer."
 )
-data class Konteringer(
+data class Kontering(
 
   @field:Schema(
     description = "Type transaksjon.\n\n"
@@ -49,22 +53,16 @@ data class Konteringer(
   ) val type: Type,
 
   @field:Schema(
-    description = "Dersom konteringen representerer et justert beløp settes dette feltet. " +
-        "Justeringstypene er INDEKSREGULERING og ALDERSJUSTERING. " +
-        "Dersom konteringen ikke gjelder en av de automatiske justeringstypene blir ikke feltet benyttet. "
-        + "For blant annet Jackson deserialisering i Java gir dette en NULL-verdi for feltet. " +
-        "Feltet settes kun for første måned med justert beløp.",
-    example = "INDEKSREGULERING",
-    required = false
-  ) val justering: Justering?,
-
-  @field:Schema(
-    description = "Dersom konteringen gjelder gebyr må feltet settes for å angi om det gjelder gebyr for bidragsmottaker eller bidragspliktig. " +
-        "Dersom konteringen ikke gjelder gebyr (G1 eller G3) blir ikke feltet gebyrRolle benyttet.",
-    example = "",
-    nullable = true,
-    required = false
-  ) val gebyrRolle: GebyrRolle?,
+    description = "Angirtypen behandling som har ført til konteringen.\n"
+        + "| Kode | Beskrivelse                                                                |\n"
+        + "|------|----------------------------------------------------------------------------|\n"
+        + "| IN   | Sendes første måned i et indeksreguleringsvedtak. Etter dette benyttes EN. |\n"
+        + "| FABM | Benyttes for gebyr som gjelder BM.                                         |\n"
+        + "| FABP | Benyttes for gebyr som gjelder BP.                                         |\n"
+        + "| EN   | Alle andre typer endringer. Også førstegangsvedtak.                        |\n",
+    example = "EN",
+    required = true
+  ) val soknadType: SøknadType,
 
   @field:Schema(
     description = "Personident (FNR/DNR) til bidragsmottaker i bidragssaken. I saker der bidragsmottaker ikke er satt benyttes et dummynr 22222222226",
@@ -96,9 +94,9 @@ data class Konteringer(
 
   @field:Schema(
     description = "Konteringens beløp. Positive beløp og 0 regnes som tillegg, negative beløp som fradrag.",
-    example = "2000",
+    example = "7500.0",
     required = true
-  ) val belop: Int,
+  ) val belop: BigDecimal,
 
   @field:Schema(
     description = "Valutakoden for beløpet.", example = "NOK", required = true
@@ -160,40 +158,3 @@ data class Konteringer(
     required = true
   ) val delytelsesId: String
 )
-
-enum class Transaksjonskode(beskrivelse: String, korreksjonskode: Boolean) {
-  A1("Bidragsforskudd", false),
-  A3("Bidragsforskudd", true),
-  B1("Underholdsbidrag (m/u tilleggsbidrag)", false),
-  B3("Underholdsbidrag (m/u tilleggsbidrag)", true),
-  D1("18årsbidrag", false),
-  D3("18årsbidrag", true),
-  E1("Bidrag til særlige utgifter (særtilskudd)", false),
-  E3("Bidrag til særlige utgifter (særtilskudd)", true),
-  F1("Ektefellebidrag", false),
-  F3("Ektefellebidrag", true),
-  G1("Gebyr", false),
-  G3("Gebyr", true),
-  H1("Tilbakekreving", false),
-  H3("Tilbakekreving", true),
-  I1("Motregning", false),
-  K1("Ettergivelse", false),
-  K2("Direkte oppgjør (innbetalt beløp)", false),
-  K3("Tilbakekreving ettergivelse", false),
-}
-
-@Schema(
-  description = "Konteringstypen er NY for nye konteringer for en stønad i en periode. " +
-      "Deretter skal alle konteringer for samme stønad i samme periode markere ENDRING, altså B3-konteringen og for alle påfølgende B1-konteringer."
-)
-enum class Type {
-  NY, ENDRING
-}
-
-enum class Justering {
-  INDEKSREGULERING, ALDERSJUSTERING
-}
-
-enum class GebyrRolle {
-  BIDRAGSMOTTAKER, BIDRAGSPLIKTIG
-}

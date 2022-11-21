@@ -12,8 +12,11 @@ import java.util.stream.Collectors
 @Component
 class StubUtils() {
 
-  fun <T> jsonToObject(path: String, filnavn: String, kClass: Class<*>?): T? {
+  companion object {
     val objectMapper = jacksonObjectMapper()
+  }
+
+  fun <T> jsonfilTilObjekt(path: String, filnavn: String, kClass: Class<*>?): T? {
 
     val returKlasse: T
     val javaType: JavaType = objectMapper.typeFactory.constructType(kClass)
