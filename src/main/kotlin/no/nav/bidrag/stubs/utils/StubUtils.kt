@@ -1,6 +1,8 @@
 package no.nav.bidrag.stubs.utils
 
 import com.fasterxml.jackson.databind.JavaType
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.stereotype.Component
 import java.io.BufferedReader
@@ -14,6 +16,8 @@ class StubUtils() {
 
   companion object {
     val objectMapper = jacksonObjectMapper()
+      .registerModule(JavaTimeModule())
+      .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
   }
 
   fun <T> jsonfilTilObjekt(path: String, filnavn: String, kClass: Class<*>?): T? {
@@ -26,6 +30,10 @@ class StubUtils() {
       throw IllegalStateException(e.message, e)
     }
     return returKlasse
+  }
+
+  fun objektTilJson(objekt: Any): String {
+    return objectMapper.writeValueAsString(objekt)
   }
 
   fun hentClassPathResourceSomJsonString(path: String, filnavn: String): String {
