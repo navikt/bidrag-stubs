@@ -7,12 +7,12 @@ data class Feilsituasjon(
 
   @field:Schema(
     description = "En kode som beskriver feilsituasjonen. Koden skal være lik for like situasjoner.",
-    example = "UGYLDIG_TOKEN",
+    example = "NOE_GIKK_GALT_EKSEMPEL",
     required = true)
   val feilkode: String,
   @field:Schema(
     description = "En tekst som beskriver denne konkrete feilsituasjonen. Beskrivelsen bør inneholde nok informasjon til at problemet kan løses.",
-    example = "Token utløp 2022-11-01 10:00:00",
+    example = "Noe gikk galt.",
     required = true)
   val feilmelding: String
 )

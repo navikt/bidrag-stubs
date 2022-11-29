@@ -15,14 +15,14 @@ data class Vedlikeholdsmodus(
 
   @field:Schema(
     description = "Forhåndsavklart kode som beskriver årsaken til vedlikeholdsmodus.",
-    example = "PAALOP_GENERERES",
+    example = "PAALOEP_GENERERES",
     required = true
   )
   val aarsakKode: ÅrsakKode,
 
   @field:Schema(
-    description = "Påløp for 2022-12 genereres hos NAV.",
-    example = "true",
+    description = "Kommentar som sier noe om hvorfor påløpsmodus er aktiv.",
+    example = "Påløp for 2022-12 genereres hos NAV.",
     required = true
   )
   val kommentar: String,
