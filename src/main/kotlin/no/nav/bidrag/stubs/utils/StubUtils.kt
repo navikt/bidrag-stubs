@@ -1,8 +1,9 @@
 package no.nav.bidrag.stubs.utils
 
 import com.fasterxml.jackson.databind.JavaType
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
 import java.io.BufferedReader
 import java.io.IOException
@@ -13,8 +14,13 @@ import java.util.stream.Collectors
 @Component
 class StubUtils() {
 
-  fun <T> jsonToObject(path: String, filnavn: String, kClass: Class<*>?): T? {
+  companion object {
     val objectMapper = jacksonObjectMapper()
+      .registerModule(JavaTimeModule())
+      .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+  }
+
+  fun <T> jsonfilTilObjekt(path: String, filnavn: String, kClass: Class<*>?): T? {
 
     val returKlasse: T
     val javaType: JavaType = objectMapper.typeFactory.constructType(kClass)
@@ -25,6 +31,11 @@ class StubUtils() {
     }
     return returKlasse
   }
+
+  fun objektTilJson(objekt: Any): String {
+    return objectMapper.writeValueAsString(objekt)
+  }
+
   fun hentClassPathResourceSomJsonString(path: String, filnavn: String): String {
     javaClass.getResourceAsStream("/$path$filnavn.json")!!.use { inputStream ->
       BufferedReader(InputStreamReader(inputStream)).use { reader ->
@@ -32,6 +43,7 @@ class StubUtils() {
       }
     }
   }
+
   fun finnesFil(path: String, filnavn: String): Boolean {
     javaClass.getResource("/$path$filnavn.json")?.let { return true }
     return false

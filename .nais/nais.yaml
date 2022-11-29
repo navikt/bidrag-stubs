@@ -30,6 +30,8 @@ spec:
     requests:
       cpu: 500m
       memory: 1024Mi
+  maskinporten:
+    enabled: true
   ingresses:
     - {{ ingress }}
   accessPolicy:
