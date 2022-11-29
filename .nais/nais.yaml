@@ -42,4 +42,7 @@ spec:
           namespace: {{this.namespace}}
           cluster: {{this.cluster}}
       {{/each}}
+  replicas:
+    min: 1
+    max: 1
 
