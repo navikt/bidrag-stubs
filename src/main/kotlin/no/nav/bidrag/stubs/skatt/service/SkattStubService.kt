@@ -18,6 +18,8 @@ class SkattStubService(var stubUtils: StubUtils) {
   companion object {
     const val RESOURCES_FILPLASSERING = "responser/ekstern/skatt/"
     private val LOGGER = LoggerFactory.getLogger(SkattStubService::class.java)
+
+    @Volatile
     private var vedlikeholdsmodusState: Vedlikeholdsmodus =
       Vedlikeholdsmodus(false, ÅrsakKode.PAALOEP_BEHANDLET, "Default state.")
   }
