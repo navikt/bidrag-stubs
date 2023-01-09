@@ -18,7 +18,7 @@ no.nav.security.jwt:
     accepted_audience: ${AZURE_APP_CLIENT_ID}, api://${AZURE_APP_CLIENT_ID}
 
 no.nav.security.jwt.issuer.maskinporten:
-  discovery-url: ${MASKINPORTEN_WELL_KNOWN_URL}
+  discovery-url: https://test.maskinporten.no/.well-known/oauth-authorization-server
   accepted_audience: ${MASKINPORTEN_AUDIENCE}
   # Claims som ikke støttes av Maskinporten. Audience (aud) kan legges til men er ikke nødvendig. Sub and nbf finnes ikke i claimet og må derfor settes som optional.
   validation.optional-claims: aud,sub,nbf
