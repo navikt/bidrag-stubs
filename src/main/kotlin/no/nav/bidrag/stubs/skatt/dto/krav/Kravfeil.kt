@@ -5,5 +5,5 @@ import no.nav.bidrag.stubs.skatt.dto.kontering.Konteringsfeil
 
 @Schema(name = "Kravfeil", description = "Lister feil i et krav.")
 data class Kravfeil(
-  val konteringsfeil: List<Konteringsfeil>
+    val konteringsfeil: List<Konteringsfeil>
 )
