@@ -10,42 +10,40 @@ import java.io.IOException
 import java.io.InputStreamReader
 import java.util.stream.Collectors
 
-
 @Component
 class StubUtils() {
 
-  companion object {
-    val objectMapper = jacksonObjectMapper()
-      .registerModule(JavaTimeModule())
-      .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-  }
-
-  fun <T> jsonfilTilObjekt(path: String, filnavn: String, kClass: Class<*>?): T? {
-
-    val returKlasse: T
-    val javaType: JavaType = objectMapper.typeFactory.constructType(kClass)
-    returKlasse = try {
-      objectMapper.readValue(hentClassPathResourceSomJsonString(path, filnavn), javaType)
-    } catch (e: IOException) {
-      throw IllegalStateException(e.message, e)
+    companion object {
+        val objectMapper = jacksonObjectMapper()
+            .registerModule(JavaTimeModule())
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
     }
-    return returKlasse
-  }
 
-  fun objektTilJson(objekt: Any): String {
-    return objectMapper.writeValueAsString(objekt)
-  }
-
-  fun hentClassPathResourceSomJsonString(path: String, filnavn: String): String {
-    javaClass.getResourceAsStream("/$path$filnavn.json")!!.use { inputStream ->
-      BufferedReader(InputStreamReader(inputStream)).use { reader ->
-        return reader.lines().collect(Collectors.joining(System.lineSeparator()))
-      }
+    fun <T> jsonfilTilObjekt(path: String, filnavn: String, kClass: Class<*>?): T? {
+        val returKlasse: T
+        val javaType: JavaType = objectMapper.typeFactory.constructType(kClass)
+        returKlasse = try {
+            objectMapper.readValue(hentClassPathResourceSomJsonString(path, filnavn), javaType)
+        } catch (e: IOException) {
+            throw IllegalStateException(e.message, e)
+        }
+        return returKlasse
     }
-  }
 
-  fun finnesFil(path: String, filnavn: String): Boolean {
-    javaClass.getResource("/$path$filnavn.json")?.let { return true }
-    return false
-  }
+    fun objektTilJson(objekt: Any): String {
+        return objectMapper.writeValueAsString(objekt)
+    }
+
+    fun hentClassPathResourceSomJsonString(path: String, filnavn: String): String {
+        javaClass.getResourceAsStream("/$path$filnavn.json")!!.use { inputStream ->
+            BufferedReader(InputStreamReader(inputStream)).use { reader ->
+                return reader.lines().collect(Collectors.joining(System.lineSeparator()))
+            }
+        }
+    }
+
+    fun finnesFil(path: String, filnavn: String): Boolean {
+        javaClass.getResource("/$path$filnavn.json")?.let { return true }
+        return false
+    }
 }

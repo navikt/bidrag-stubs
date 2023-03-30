@@ -16,7 +16,7 @@ val SECURE_LOGGER: Logger = LoggerFactory.getLogger("secureLogger")
 class BidragStubsSpring
 
 fun main(args: Array<String>) {
-  val app = SpringApplication(BidragStubsSpring::class.java)
-  app.setAdditionalProfiles(if (args.isEmpty()) PROFILE_NAIS else args[0])
-  app.run(*args)
+    val app = SpringApplication(BidragStubsSpring::class.java)
+    app.setAdditionalProfiles(if (args.isEmpty()) PROFILE_NAIS else args[0])
+    app.run(*args)
 }

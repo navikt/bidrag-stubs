@@ -5,5 +5,5 @@ import no.nav.bidrag.stubs.skatt.dto.kontering.Kontering
 
 @Schema(name = "Krav", description = "Et krav består av en liste med konteringer.")
 data class Krav(
-  val konteringer: List<Kontering>
+    val konteringer: List<Kontering>
 )
