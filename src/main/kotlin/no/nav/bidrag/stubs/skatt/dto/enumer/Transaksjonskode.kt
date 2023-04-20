@@ -1,22 +1,22 @@
 package no.nav.bidrag.stubs.skatt.dto.enumer
 
-enum class Transaksjonskode(beskrivelse: String, korreksjonskode: Boolean) {
-    A1("Bidragsforskudd", false),
-    A3("Bidragsforskudd", true),
-    B1("Underholdsbidrag (m/u tilleggsbidrag)", false),
-    B3("Underholdsbidrag (m/u tilleggsbidrag)", true),
-    D1("18årsbidrag", false),
-    D3("18årsbidrag", true),
-    E1("Bidrag til særlige utgifter (særtilskudd)", false),
-    E3("Bidrag til særlige utgifter (særtilskudd)", true),
-    F1("Ektefellebidrag", false),
-    F3("Ektefellebidrag", true),
-    G1("Gebyr", false),
-    G3("Gebyr", true),
-    H1("Tilbakekreving", false),
-    H3("Tilbakekreving", true),
-    I1("Motregning", false),
-    K1("Ettergivelse", false),
-    K2("Direkte oppgjør (innbetalt beløp)", false),
-    K3("Tilbakekreving ettergivelse", false)
+enum class Transaksjonskode(val korreksjonskode: String?, val negativtBeløp: Boolean) {
+    A1("A3", false), // Bidragsforskudd
+    A3(null, true),
+    B1("B3", false), // Underholdsbidrag (m/u tilleggsbidrag)
+    B3(null, true),
+    D1("D3", false), // 18årsbidrag
+    D3(null, true),
+    E1("E3", false), // Bidrag til særlige utgifter (særtilskudd)
+    E3(null, true),
+    F1("F3", false), // Ektefellebidrag
+    F3(null, true),
+    G1("G3", false), // Gebyr
+    G3(null, true),
+    H1("H3", false), // Tilbakekreving
+    H3(null, true),
+    I1(null, true), // Motregning
+    K1(null, true), // Ettergivelse
+    K2(null, true), // Direkte oppgjør (innbetalt beløp)
+    K3(null, true); // Tilbakekreving ettergivelse
 }

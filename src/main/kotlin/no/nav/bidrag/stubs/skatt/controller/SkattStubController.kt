@@ -7,18 +7,22 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
-import no.nav.bidrag.stubs.skatt.dto.Feilsituasjon
+import no.nav.bidrag.stubs.skatt.dto.BehandlingsstatusResponse
+import no.nav.bidrag.stubs.skatt.dto.Konteringsfeil
+import no.nav.bidrag.stubs.skatt.dto.Krav
+import no.nav.bidrag.stubs.skatt.dto.KravResponse
+import no.nav.bidrag.stubs.skatt.dto.Kravfeil
+import no.nav.bidrag.stubs.skatt.dto.OppdatertStatus
 import no.nav.bidrag.stubs.skatt.dto.Vedlikeholdsmodus
-import no.nav.bidrag.stubs.skatt.dto.kontering.Konteringsfeil
-import no.nav.bidrag.stubs.skatt.dto.krav.Krav
-import no.nav.bidrag.stubs.skatt.dto.krav.KravResponse
 import no.nav.bidrag.stubs.skatt.service.SkattStubService
 import no.nav.security.token.support.core.api.ProtectedWithClaims
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
 
@@ -51,7 +55,7 @@ class SkattStubController(
                 content = [
                     Content(
                         mediaType = "application/json",
-                        array = ArraySchema(schema = Schema(implementation = Feilsituasjon::class))
+                        array = ArraySchema(schema = Schema(implementation = Kravfeil::class))
                     )
                 ]
             ),
@@ -81,6 +85,39 @@ class SkattStubController(
     @ResponseBody
     fun lagreKrav(@RequestBody krav: Krav): ResponseEntity<Any> {
         return skattStubService.lagreKrav(krav)
+    }
+
+    @PutMapping("/api/feilPaKrav")
+    @Operation(
+        description = "Endre om innsending av krav mot stub skal feile eller ikke."
+    )
+    @Tag(name = "Endre om innsending av krav skal feile")
+    fun endreFeilPåKrav(@RequestParam(required = true) skalFeilePåInnsendingAvKrav: Boolean): ResponseEntity<OppdatertStatus> {
+        return ResponseEntity.ok(
+            OppdatertStatus(
+                "Feil ved oversending av krav slått ${
+                    if (skattStubService.oppdaterFeilPåKrav(
+                            skalFeilePåInnsendingAvKrav
+                        )
+                    ) "PÅ" else "AV"
+                }"
+            )
+        )
+    }
+
+    @PutMapping("/api/behandlingsstatus")
+    @Operation(
+        description = "Endre om kall på behandlingsstatus med batch-uid skal feile eller ikke."
+    )
+    @Tag(name = "Endre om kall på behandlingsstatus skal feile")
+    fun endreBehandlingsstatus(@RequestParam(required = true) skalFeilePåKallMotBehandlingsstatus: Boolean): ResponseEntity<OppdatertStatus> {
+        return ResponseEntity.ok(
+            OppdatertStatus(
+                "Feil ved kall mot behandlingsstatus slått ${
+                    if (skattStubService.oppdatertFeilPåBehandlingsstatus(skalFeilePåKallMotBehandlingsstatus)) "PÅ" else "AV"
+                }"
+            )
+        )
     }
 
     @PostMapping("api/vedlikeholdsmodus")
@@ -131,9 +168,9 @@ class SkattStubController(
             ApiResponse(
                 responseCode = "400",
                 description = "Dersom én av konteringene ikke går gjennom validering forkastes alle konteringene i kravet og en liste over konteringer som har feilet returneres, sammen med informasjon om hva som er feil.\n" +
-                    "\n" +
-                    "Det er ingen garanti for at konteringer som ikke kommer med på listen over feilede konteringer er feilfrie.\n " +
-                    "NB: Dette er ikke implementert i stub.",
+                        "\n" +
+                        "Det er ingen garanti for at konteringer som ikke kommer med på listen over feilede konteringer er feilfrie.\n " +
+                        "NB: Dette er ikke implementert i stub.",
                 content = [
                     Content(
                         mediaType = "application/json",
@@ -162,7 +199,7 @@ class SkattStubController(
                 content = [
                     Content(
                         mediaType = "application/json",
-                        array = ArraySchema(schema = Schema(implementation = Feilsituasjon::class))
+                        array = ArraySchema(schema = Schema(implementation = Kravfeil::class))
                     )
                 ]
             )
@@ -172,5 +209,38 @@ class SkattStubController(
     @ResponseBody
     fun liveness(): ResponseEntity<Any> {
         return skattStubService.liveness()
+    }
+    @GetMapping("api/krav/{batchUid}")
+    @Operation(
+        description = "Stub for å sjekke behandlingsstatus for batch-uid."
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Behandlingsstatus for tidligere leverte konteringer.",
+                content = [
+                    Content(
+                        mediaType = "application/json",
+                        array = ArraySchema(schema = Schema(implementation = BehandlingsstatusResponse::class))
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "503",
+                description = "Påløpsmodus er på.",
+                content = [
+                    Content(
+                        mediaType = "application/json",
+                        array = ArraySchema(schema = Schema(implementation = Kravfeil::class))
+                    )
+                ]
+            )
+        ]
+    )
+    @Tag(name = "Stub for å sjekke behandlingsstatus for batch-uid")
+    @ResponseBody
+    fun hentBehandlingsstatus(batchUid: String): ResponseEntity<BehandlingsstatusResponse> {
+        return skattStubService.hentBehandlingsstatus(batchUid)
     }
 }

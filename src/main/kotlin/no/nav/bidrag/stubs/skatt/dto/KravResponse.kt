@@ -1,4 +1,4 @@
-package no.nav.bidrag.stubs.skatt.dto.krav
+package no.nav.bidrag.stubs.skatt.dto
 
 import io.swagger.v3.oas.annotations.media.Schema
 

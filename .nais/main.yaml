@@ -1,5 +1,5 @@
 name: bidrag-stubs
-ingress: https://bidrag-stubs.dev.intern.nav.no
+ingress: https://bidrag-stubs.intern.dev.nav.no
 azureAccessInbound:
   - application: bidrag-regnskap-feature
     namespace: bidrag
