@@ -7,9 +7,9 @@ import no.nav.bidrag.stubs.SECURE_LOGGER
 import no.nav.bidrag.stubs.skatt.dto.Batchstatus
 import no.nav.bidrag.stubs.skatt.dto.BehandlingsstatusResponse
 import no.nav.bidrag.stubs.skatt.dto.Feilmelding
-import no.nav.bidrag.stubs.skatt.dto.Krav
 import no.nav.bidrag.stubs.skatt.dto.KravResponse
 import no.nav.bidrag.stubs.skatt.dto.Kravfeil
+import no.nav.bidrag.stubs.skatt.dto.Kravliste
 import no.nav.bidrag.stubs.skatt.dto.Vedlikeholdsmodus
 import no.nav.bidrag.stubs.skatt.dto.enumer.ÅrsakKode
 import org.slf4j.LoggerFactory
@@ -39,7 +39,7 @@ class SkattStubService {
         private var feilePåBehandlingsstatusState: Boolean = false
     }
 
-    fun lagreKrav(krav: Krav): ResponseEntity<Any> {
+    fun lagreKrav(kravliste: Kravliste): ResponseEntity<Any> {
         if (vedlikeholdsmodusState.aktiv) {
             LOGGER.info(
                 "Vedlikeholdsmodus er på! Krav blir derfor ikke lagret. " +
@@ -47,13 +47,13 @@ class SkattStubService {
             )
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build()
         }
-        krav.konteringer.forEach {
-            if (feilePåKravState) {
-                return ResponseEntity.badRequest()
-                    .body(Kravfeil("Feil ved overføring av krav via STUB. Dette er en forventet feil og kan endres ved å kalle bidrag-stubs endepunkt."))
-            }
+
+        if (feilePåKravState) {
+            return ResponseEntity.badRequest()
+                .body(Kravfeil("Feil ved overføring av krav via STUB. Dette er en forventet feil og kan endres ved å kalle bidrag-stubs endepunkt."))
         }
-        SECURE_LOGGER.info(objectMapper.writeValueAsString(krav))
+
+        SECURE_LOGGER.info(objectMapper.writeValueAsString(kravliste))
         return ResponseEntity.accepted().body(KravResponse(opprettBatchUid()))
     }
 

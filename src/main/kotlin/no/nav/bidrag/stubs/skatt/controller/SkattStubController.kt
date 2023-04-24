@@ -9,9 +9,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import no.nav.bidrag.stubs.skatt.dto.BehandlingsstatusResponse
 import no.nav.bidrag.stubs.skatt.dto.Konteringsfeil
-import no.nav.bidrag.stubs.skatt.dto.Krav
 import no.nav.bidrag.stubs.skatt.dto.KravResponse
 import no.nav.bidrag.stubs.skatt.dto.Kravfeil
+import no.nav.bidrag.stubs.skatt.dto.Kravliste
 import no.nav.bidrag.stubs.skatt.dto.OppdatertStatus
 import no.nav.bidrag.stubs.skatt.dto.Vedlikeholdsmodus
 import no.nav.bidrag.stubs.skatt.service.SkattStubService
@@ -83,8 +83,8 @@ class SkattStubController(
     )
     @Tag(name = "Send krav")
     @ResponseBody
-    fun lagreKrav(@RequestBody krav: Krav): ResponseEntity<Any> {
-        return skattStubService.lagreKrav(krav)
+    fun lagreKrav(@RequestBody kravliste: Kravliste): ResponseEntity<Any> {
+        return skattStubService.lagreKrav(kravliste)
     }
 
     @PutMapping("/api/feilPaKrav")
