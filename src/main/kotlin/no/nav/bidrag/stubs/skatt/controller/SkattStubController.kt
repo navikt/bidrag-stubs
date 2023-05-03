@@ -97,10 +97,14 @@ class SkattStubController(
         return ResponseEntity.ok(
             OppdatertStatus(
                 "Feil ved oversending av krav slått ${
-                    if (skattStubService.oppdaterFeilPåKrav(
-                            skalFeilePåInnsendingAvKrav
-                        )
-                    ) "PÅ" else "AV"
+                if (skattStubService.oppdaterFeilPåKrav(
+                        skalFeilePåInnsendingAvKrav
+                    )
+                ) {
+                    "PÅ"
+                } else {
+                    "AV"
+                }
                 }"
             )
         )
@@ -115,7 +119,7 @@ class SkattStubController(
         return ResponseEntity.ok(
             OppdatertStatus(
                 "Feil ved kall mot behandlingsstatus slått ${
-                    if (skattStubService.oppdatertFeilPåBehandlingsstatus(skalFeilePåKallMotBehandlingsstatus)) "PÅ" else "AV"
+                if (skattStubService.oppdatertFeilPåBehandlingsstatus(skalFeilePåKallMotBehandlingsstatus)) "PÅ" else "AV"
                 }"
             )
         )
@@ -169,9 +173,9 @@ class SkattStubController(
             ApiResponse(
                 responseCode = "400",
                 description = "Dersom én av konteringene ikke går gjennom validering forkastes alle konteringene i kravet og en liste over konteringer som har feilet returneres, sammen med informasjon om hva som er feil.\n" +
-                        "\n" +
-                        "Det er ingen garanti for at konteringer som ikke kommer med på listen over feilede konteringer er feilfrie.\n " +
-                        "NB: Dette er ikke implementert i stub.",
+                    "\n" +
+                    "Det er ingen garanti for at konteringer som ikke kommer med på listen over feilede konteringer er feilfrie.\n " +
+                    "NB: Dette er ikke implementert i stub.",
                 content = [
                     Content(
                         mediaType = "application/json",
@@ -211,6 +215,7 @@ class SkattStubController(
     fun liveness(): ResponseEntity<Any> {
         return skattStubService.liveness()
     }
+
     @GetMapping("api/krav/{batchUid}")
     @Operation(
         description = "Stub for å sjekke behandlingsstatus for batch-uid."

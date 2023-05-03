@@ -1,8 +1,6 @@
 package no.nav.bidrag.stubs.skatt.service
 
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.databind.ObjectMapper
 import no.nav.bidrag.stubs.SECURE_LOGGER
 import no.nav.bidrag.stubs.skatt.dto.Batchstatus
 import no.nav.bidrag.stubs.skatt.dto.BehandlingsstatusResponse
@@ -19,13 +17,9 @@ import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
-class SkattStubService {
+class SkattStubService(private val objectMapper: ObjectMapper) {
 
     companion object {
-
-        val objectMapper = jacksonObjectMapper()
-            .registerModule(JavaTimeModule())
-            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
 
         private val LOGGER = LoggerFactory.getLogger(SkattStubService::class.java)
 
@@ -43,7 +37,7 @@ class SkattStubService {
         if (vedlikeholdsmodusState.aktiv) {
             LOGGER.info(
                 "Vedlikeholdsmodus er på! Krav blir derfor ikke lagret. " +
-                        "\nÅrsakskode: ${vedlikeholdsmodusState.aarsakKode.name}, kommentar: ${vedlikeholdsmodusState.kommentar}"
+                    "\nÅrsakskode: ${vedlikeholdsmodusState.aarsakKode.name}, kommentar: ${vedlikeholdsmodusState.kommentar}"
             )
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build()
         }
@@ -64,8 +58,8 @@ class SkattStubService {
                     listOf(
                         Feilmelding(
                             "FagsystemId: [1234567]; [XX] step [XX123]. Batch: [$batchUid - ]. " +
-                                    "Autentisering mot Maskinporten feilet: Url: https://test.maskinporten.no/token. invalid_grant Invalid assertion. Client authentication failed. Invalid JWT signature. " +
-                                    "(trace_id: Bidrag-Stub_TestData)"
+                                "Autentisering mot Maskinporten feilet: Url: https://test.maskinporten.no/token. invalid_grant Invalid assertion. Client authentication failed. Invalid JWT signature. " +
+                                "(trace_id: Bidrag-Stub_TestData)"
                         )
                     ),
                     Batchstatus.Failed,
