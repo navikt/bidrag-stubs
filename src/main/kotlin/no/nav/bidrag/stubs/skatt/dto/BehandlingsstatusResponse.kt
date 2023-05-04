@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class BehandlingsstatusResponse(
 
     val konteringFeil: List<Feilmelding>,
-    val bachStatus: Batchstatus,
+    val batchStatus: Batchstatus,
     val totaltAntall: Int,
     val mislyketAntall: Int,
     val fullfoertAntall: Int
