@@ -18,7 +18,7 @@ data class Feilmelding(
     val feilmelding: String
 )
 
-enum class Batchstatus{
+enum class Batchstatus {
     Failed,
     Done
 }

@@ -40,8 +40,8 @@ data class KonteringId(
 
     @field:Schema(
         description = "Unik referanse til perioden i vedtaket. " +
-                "I bidragssaken kan en periode strekke over flere måneder, og samme referanse blir da benyttet for alle månedene. " +
-                "Samme referanse kan ikke benyttes to ganger for samme transaksjonskode i samme måned.",
+            "I bidragssaken kan en periode strekke over flere måneder, og samme referanse blir da benyttet for alle månedene. " +
+            "Samme referanse kan ikke benyttes to ganger for samme transaksjonskode i samme måned.",
         example = "123456789",
         required = true
     )
