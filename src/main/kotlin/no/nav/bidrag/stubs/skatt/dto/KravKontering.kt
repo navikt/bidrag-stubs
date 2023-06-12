@@ -132,7 +132,7 @@ data class KravKontering(
             "Dette er et fritekstfelt som kan inneholde spesialtegn.",
         example = "VII W → 450 → 40 /11",
         required = false
-    ) val eksternReferanse: String?,
+    ) val tekst: String?,
 
     @field:Schema(
         description = "Bidragssakens saksnummer angitt som String.",
