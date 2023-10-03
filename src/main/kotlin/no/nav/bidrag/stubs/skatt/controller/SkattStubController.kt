@@ -7,14 +7,12 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
-import no.nav.bidrag.stubs.skatt.dto.BehandlingsstatusResponse
-import no.nav.bidrag.stubs.skatt.dto.Konteringsfeil
-import no.nav.bidrag.stubs.skatt.dto.KravResponse
-import no.nav.bidrag.stubs.skatt.dto.Kravfeil
-import no.nav.bidrag.stubs.skatt.dto.Kravliste
 import no.nav.bidrag.stubs.skatt.dto.OppdatertStatus
-import no.nav.bidrag.stubs.skatt.dto.Vedlikeholdsmodus
 import no.nav.bidrag.stubs.skatt.service.SkattStubService
+import no.nav.bidrag.transport.regnskap.behandlingsstatus.BehandlingsstatusResponse
+import no.nav.bidrag.transport.regnskap.krav.KravResponse
+import no.nav.bidrag.transport.regnskap.krav.Kravliste
+import no.nav.bidrag.transport.regnskap.vedlikeholdsmodus.Vedlikeholdsmodus
 import no.nav.security.token.support.core.api.ProtectedWithClaims
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -53,12 +51,7 @@ class SkattStubController(
             ApiResponse(
                 responseCode = "400",
                 description = "En av konteringene gikk ikke gjennom validering. Liste over feilede konteringer returneres.",
-                content = [
-                    Content(
-                        mediaType = "application/json",
-                        array = ArraySchema(schema = Schema(implementation = Kravfeil::class))
-                    )
-                ]
+                content = [Content()]
             ),
             ApiResponse(
                 responseCode = "401",
@@ -177,10 +170,7 @@ class SkattStubController(
                     "Det er ingen garanti for at konteringer som ikke kommer med på listen over feilede konteringer er feilfrie.\n " +
                     "NB: Dette er ikke implementert i stub.",
                 content = [
-                    Content(
-                        mediaType = "application/json",
-                        array = ArraySchema(schema = Schema(implementation = Konteringsfeil::class))
-                    )
+                    Content()
                 ]
             ),
             ApiResponse(
@@ -201,12 +191,7 @@ class SkattStubController(
             ApiResponse(
                 responseCode = "503",
                 description = "Påløpsmodus er på.",
-                content = [
-                    Content(
-                        mediaType = "application/json",
-                        array = ArraySchema(schema = Schema(implementation = Kravfeil::class))
-                    )
-                ]
+                content = [Content()]
             )
         ]
     )
@@ -235,12 +220,7 @@ class SkattStubController(
             ApiResponse(
                 responseCode = "503",
                 description = "Påløpsmodus er på.",
-                content = [
-                    Content(
-                        mediaType = "application/json",
-                        array = ArraySchema(schema = Schema(implementation = Kravfeil::class))
-                    )
-                ]
+                content = [Content()]
             )
         ]
     )
