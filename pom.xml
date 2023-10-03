@@ -17,6 +17,7 @@
     <java.version>17</java.version>
     <kotlin.version>1.8.21</kotlin.version>
     <bidrag-commons.version>20230516121246_1e60457</bidrag-commons.version>
+    <bidrag-transport.version>20231003130850_d31b8db</bidrag-transport.version>
     <logback-encoder.version>7.3</logback-encoder.version>
     <token-support.version>2.1.4</token-support.version>
     <springdoc-openapi-ui.version>2.1.0</springdoc-openapi-ui.version>
@@ -29,7 +30,13 @@
   <repositories>
     <repository>
       <id>github</id>
-      <url>https://maven.pkg.github.com/navikt/bidrag-commons</url>
+      <name>GitHub felles Apache Maven Packages for navikt</name>
+      <url>https://maven.pkg.github.com/navikt/maven-release/</url>
+    </repository>
+    <repository>
+      <id>confluent</id>
+      <name>Confluent kafka</name>
+      <url>https://packages.confluent.io/maven/</url>
     </repository>
   </repositories>
 
@@ -117,6 +124,11 @@
       <groupId>no.nav.bidrag</groupId>
       <artifactId>bidrag-commons</artifactId>
       <version>${bidrag-commons.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>no.nav.bidrag</groupId>
+      <artifactId>bidrag-transport</artifactId>
+      <version>${bidrag-transport.version}</version>
     </dependency>
 
     <!--Diverse-->
