@@ -4,7 +4,7 @@
 
 ## Beskrivelse
 
-Bidrag-stubs er en applikasjon for å tilby stubber mot eksterne eller interne endepunkter. Bidrag-stubs lever kun på https://bidrag-stubs.dev.intern.nav.no og kan ikke prodsettes.
+Bidrag-stubs er en applikasjon for å tilby stubber mot eksterne eller interne endepunkter. Bidrag-stubs lever kun på https://bidrag-stubs.intern.dev.nav.no og kan ikke prodsettes.
 
 
 Applikasjon tilbyr stubber for følgende endepunkter:
