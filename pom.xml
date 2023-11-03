@@ -15,7 +15,7 @@
   <name>bidrag-stubs</name>
   <properties>
     <java.version>17</java.version>
-    <kotlin.version>1.8.21</kotlin.version>
+    <kotlin.version>1.9.20</kotlin.version>
     <bidrag-commons.version>20230516121246_1e60457</bidrag-commons.version>
     <bidrag-transport.version>20231003130850_d31b8db</bidrag-transport.version>
     <logback-encoder.version>7.3</logback-encoder.version>
