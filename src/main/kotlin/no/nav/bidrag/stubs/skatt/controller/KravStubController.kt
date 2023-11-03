@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import no.nav.bidrag.stubs.skatt.dto.OppdatertStatus
-import no.nav.bidrag.stubs.skatt.service.SkattStubService
+import no.nav.bidrag.stubs.skatt.service.KravStubService
 import no.nav.bidrag.transport.regnskap.behandlingsstatus.BehandlingsstatusResponse
 import no.nav.bidrag.transport.regnskap.krav.KravResponse
 import no.nav.bidrag.transport.regnskap.krav.Kravliste
@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("ekstern/skatt")
 @ProtectedWithClaims(issuer = "maskinporten", claimMap = ["scope=nav:bidrag/v1/bidragskrav"])
-class SkattStubController(
-    val skattStubService: SkattStubService
+class KravStubController(
+    val kravStubService: KravStubService
 ) {
 
     @PostMapping("/api/krav")
@@ -78,7 +78,7 @@ class SkattStubController(
     @Tag(name = "Send krav")
     @ResponseBody
     fun lagreKrav(@RequestBody kravliste: Kravliste): ResponseEntity<Any> {
-        return skattStubService.lagreKrav(kravliste)
+        return kravStubService.lagreKrav(kravliste)
     }
 
     @PutMapping("/api/feilPaKrav")
@@ -90,7 +90,7 @@ class SkattStubController(
         return ResponseEntity.ok(
             OppdatertStatus(
                 "Feil ved oversending av krav slått ${
-                if (skattStubService.oppdaterFeilPåKrav(
+                if (kravStubService.oppdaterFeilPåKrav(
                         skalFeilePåInnsendingAvKrav
                     )
                 ) {
@@ -112,7 +112,7 @@ class SkattStubController(
         return ResponseEntity.ok(
             OppdatertStatus(
                 "Feil ved kall mot behandlingsstatus slått ${
-                if (skattStubService.oppdatertFeilPåBehandlingsstatus(skalFeilePåKallMotBehandlingsstatus)) "PÅ" else "AV"
+                if (kravStubService.oppdatertFeilPåBehandlingsstatus(skalFeilePåKallMotBehandlingsstatus)) "PÅ" else "AV"
                 }"
             )
         )
@@ -149,7 +149,7 @@ class SkattStubController(
     @Tag(name = "Skru av eller på vedlikeholdsmodus")
     @ResponseBody
     fun oppdaterVedlikeholdsmodus(@RequestBody vedlikeholdsmodus: Vedlikeholdsmodus): ResponseEntity<Any> {
-        return skattStubService.oppdaterVedlikeholdsmodus(vedlikeholdsmodus)
+        return kravStubService.oppdaterVedlikeholdsmodus(vedlikeholdsmodus)
     }
 
     @GetMapping("api/liveness")
@@ -198,7 +198,7 @@ class SkattStubController(
     @Tag(name = "Sjekk status på vedlikeholdsmodus")
     @ResponseBody
     fun liveness(): ResponseEntity<Any> {
-        return skattStubService.liveness()
+        return kravStubService.liveness()
     }
 
     @GetMapping("api/krav/{batchUid}")
@@ -227,6 +227,6 @@ class SkattStubController(
     @Tag(name = "Stub for å sjekke behandlingsstatus for batch-uid")
     @ResponseBody
     fun hentBehandlingsstatus(@PathVariable batchUid: String): ResponseEntity<BehandlingsstatusResponse> {
-        return skattStubService.hentBehandlingsstatus(batchUid)
+        return kravStubService.hentBehandlingsstatus(batchUid)
     }
 }

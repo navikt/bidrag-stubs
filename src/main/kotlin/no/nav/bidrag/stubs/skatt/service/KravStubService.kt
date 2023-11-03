@@ -17,11 +17,11 @@ import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
-class SkattStubService(private val objectMapper: ObjectMapper) {
+class KravStubService(private val objectMapper: ObjectMapper) {
 
     companion object {
 
-        private val LOGGER = LoggerFactory.getLogger(SkattStubService::class.java)
+        private val LOGGER = LoggerFactory.getLogger(KravStubService::class.java)
 
         @Volatile
         private var vedlikeholdsmodusState: Vedlikeholdsmodus = Vedlikeholdsmodus(false, Årsakskode.PAALOEP_BEHANDLET, "Default state.")
