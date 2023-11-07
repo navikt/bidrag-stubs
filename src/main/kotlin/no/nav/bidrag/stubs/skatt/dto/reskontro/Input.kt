@@ -2,22 +2,21 @@ package no.nav.bidrag.stubs.skatt.dto.reskontro
 
 import io.swagger.v3.oas.annotations.media.Schema
 
-@Schema(
-    description = """
-        Input er samme for alle endepunktene. Det eksisterer 6 forskjellige kombinasjoner av input som er gyldige for uthenting av informasjon fra skatt.
-        Disse er som følger:
-        
-        | Endepunkt      | Aksjonskode | Bidragssaksnummer | FodselsOrgnr | TransaksjonsId | DatoFom                  | DatoTom                  | MaxAntallTransaksjoner | FodselsnrGjelder | fodselsnrNy |
-        |----------------|-------------|-------------------|--------------|----------------|--------------------------|--------------------------|------------------------|------------------|-------------|
-        | Bidragssak     | 1           | 123456            | null         | null           | null                     | null                     | null                   | null             | null        |
-        | Bidragssak     | 2           | null              | 010101xxxxx  | null           | null                     | null                     | null                   | null             | null        |
-        | Transaksjoner  | 3           | 123456            | null         | null           | 2023-01-01T00:00:00.000Z | 2023-01-02T00:00:00.000Z | 10                     | null             | null        |
-        | Transaksjoner  | 4           | null              | 010101xxxxx  | null           | 2023-01-01T00:00:00.000Z | 2023-01-02T00:00:00.000Z | 10                     | null             | null        |
-        | Transaksjoner  | 5           | null              | null         | 1234           | 2023-01-01T00:00:00.000Z | 2023-01-02T00:00:00.000Z | 10                     | null             | null        |
-        | Innkrevingssak | 6           | null              | 010101xxxxx  | null           | null                     | null                     | null                   | null             | null        |
-        | EndreRm        | 8           | 123456            | null         | null           | null                     | null                     | null                   | 010101xxxxx      | 010170xxxxx |
-    """
-)
+/**
+ * Input er samme for alle endepunktene. Det eksisterer 6 forskjellige kombinasjoner av input som er gyldige for uthenting av informasjon fra skatt.
+ * Disse er som følger:
+ *
+ * | Endepunkt      | Aksjonskode | Bidragssaksnummer | FodselsOrgnr | TransaksjonsId | DatoFom                  | DatoTom                  | MaxAntallTransaksjoner | FodselsnrGjelder | fodselsnrNy |
+ * |----------------|-------------|-------------------|--------------|----------------|--------------------------|--------------------------|------------------------|------------------|-------------|
+ * | Bidragssak     | 1           | 123456            | null         | null           | null                     | null                     | null                   | null             | null        |
+ * | Bidragssak     | 2           | null              | 010101xxxxx  | null           | null                     | null                     | null                   | null             | null        |
+ * | Transaksjoner  | 3           | 123456            | null         | null           | 2023-01-01T00:00:00.000Z | 2023-01-02T00:00:00.000Z | 10                     | null             | null        |
+ * | Transaksjoner  | 4           | null              | 010101xxxxx  | null           | 2023-01-01T00:00:00.000Z | 2023-01-02T00:00:00.000Z | 10                     | null             | null        |
+ * | Transaksjoner  | 5           | null              | null         | 1234           | 2023-01-01T00:00:00.000Z | 2023-01-02T00:00:00.000Z | 10                     | null             | null        |
+ * | Innkrevingssak | 6           | null              | 010101xxxxx  | null           | null                     | null                     | null                   | null             | null        |
+ * | EndreRm        | 8           | 123456            | null         | null           | null                     | null                     | null                   | 010101xxxxx      | 010170xxxxx |
+ */
+
 data class Input(
 
     @field:Schema(
