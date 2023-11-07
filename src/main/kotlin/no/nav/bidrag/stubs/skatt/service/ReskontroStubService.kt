@@ -29,16 +29,16 @@ class ReskontroStubService {
                     innParametre = input,
                     bidragssak = Bidragssak(
                         bidragssaksnummer = input.bidragssaksnummer,
-                        bmGjeldFastsettelsesgebyr = Random.Default.nextDouble(),
-                        bmGjeldRest = Random.Default.nextDouble(),
-                        bpGjeldFastsettelsesgebyr = Random.Default.nextDouble(),
+                        bmGjeldFastsettelsesgebyr = Random.Default.nextInt(0, 10000).toDouble(),
+                        bmGjeldRest = Random.Default.nextInt(0, 10000).toDouble(),
+                        bpGjeldFastsettelsesgebyr = Random.Default.nextInt(0, 10000).toDouble(),
                         perBarnISak = listOf(
                             BarnISak(
-                                fodselsnummer = PersonidentGenerator.genererPersonnummer(LocalDate.of(1, 1, 1)),
-                                restGjeldOffentlig = Random.Default.nextDouble(),
-                                restGjeldPrivat = Random.Default.nextDouble(),
-                                sumIkkeUtbetalt = Random.Default.nextDouble(),
-                                sumForskuddUtbetalt = Random.Default.nextDouble(),
+                                fodselsnummer = PersonidentGenerator.genererPersonnummer(LocalDate.of(2001, 1, 1)),
+                                restGjeldOffentlig = Random.Default.nextInt(0, 10000).toDouble(),
+                                restGjeldPrivat = Random.Default.nextInt(0, 10000).toDouble(),
+                                sumIkkeUtbetalt = Random.Default.nextInt(0, 10000).toDouble(),
+                                sumForskuddUtbetalt = Random.Default.nextInt(0, 10000).toDouble(),
                                 periodeSisteDatoFom = LocalDateTime.now().withDayOfMonth(1).toString(),
                                 periodeSisteDatoTom = LocalDateTime.now().withDayOfMonth(1).toString(),
                                 restGjeldPrivatAndel = 0.0,
@@ -62,24 +62,24 @@ class ReskontroStubService {
                     skyldner = Skyldner(
                         fodselsOrgnr = input.fodselsOrgnr,
                         sumLopendeBidrag = 0.0,
-                        innbetBelopUfordelt = Random.Default.nextDouble(),
-                        gjeldIlagtGebyr = Random.Default.nextDouble()
+                        innbetBelopUfordelt = Random.Default.nextInt(0, 10000).toDouble(),
+                        gjeldIlagtGebyr = Random.Default.nextInt(0, 10000).toDouble()
                     ),
                     bidragssak = Bidragssak(
                         bidragssaksnummer = Random.Default.nextLong(),
-                        bmGjeldFastsettelsesgebyr = Random.Default.nextDouble(),
-                        bmGjeldRest = Random.Default.nextDouble(),
-                        bpGjeldFastsettelsesgebyr = Random.Default.nextDouble(),
+                        bmGjeldFastsettelsesgebyr = Random.Default.nextInt(0, 10000).toDouble(),
+                        bmGjeldRest = Random.Default.nextInt(0, 10000).toDouble(),
+                        bpGjeldFastsettelsesgebyr = Random.Default.nextInt(0, 10000).toDouble(),
                         perBarnISak = listOf(
                             BarnISak(
-                                fodselsnummer = PersonidentGenerator.genererPersonnummer(LocalDate.of(1, 1, 2)),
-                                restGjeldOffentlig = Random.Default.nextDouble(),
-                                restGjeldPrivat = Random.Default.nextDouble(),
+                                fodselsnummer = PersonidentGenerator.genererPersonnummer(LocalDate.of(2001, 1, 2)),
+                                restGjeldOffentlig = Random.Default.nextInt(0, 10000).toDouble(),
+                                restGjeldPrivat = Random.Default.nextInt(0, 10000).toDouble(),
                                 sumIkkeUtbetalt = 0.0,
-                                sumForskuddUtbetalt = Random.Default.nextDouble(),
-                                restGjeldPrivatAndel = Random.Default.nextDouble(),
-                                sumInnbetaltAndel = Random.Default.nextDouble(),
-                                sumForskuddUtbetaltAndel = Random.Default.nextDouble(),
+                                sumForskuddUtbetalt = Random.Default.nextInt(0, 10000).toDouble(),
+                                restGjeldPrivatAndel = Random.Default.nextInt(0, 10000).toDouble(),
+                                sumInnbetaltAndel = Random.Default.nextInt(0, 10000).toDouble(),
+                                sumForskuddUtbetaltAndel = Random.Default.nextInt(0, 10000).toDouble(),
                             )
                         )
                     )
