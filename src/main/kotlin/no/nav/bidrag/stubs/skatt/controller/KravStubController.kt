@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
-import io.swagger.v3.oas.annotations.tags.Tag
 import no.nav.bidrag.stubs.skatt.dto.OppdatertStatus
 import no.nav.bidrag.stubs.skatt.service.KravStubService
 import no.nav.bidrag.transport.regnskap.behandlingsstatus.BehandlingsstatusResponse
@@ -75,7 +74,6 @@ class KravStubController(
             )
         ]
     )
-    @Tag(name = "Send krav")
     @ResponseBody
     fun lagreKrav(@RequestBody kravliste: Kravliste): ResponseEntity<Any> {
         return kravStubService.lagreKrav(kravliste)
@@ -85,7 +83,6 @@ class KravStubController(
     @Operation(
         description = "Endre om innsending av krav mot stub skal feile eller ikke."
     )
-    @Tag(name = "Endre om innsending av krav skal feile")
     fun endreFeilPåKrav(@RequestParam(required = true) skalFeilePåInnsendingAvKrav: Boolean): ResponseEntity<OppdatertStatus> {
         return ResponseEntity.ok(
             OppdatertStatus(
@@ -107,7 +104,6 @@ class KravStubController(
     @Operation(
         description = "Endre om kall på behandlingsstatus med batch-uid skal feile eller ikke."
     )
-    @Tag(name = "Endre om kall på behandlingsstatus skal feile")
     fun endreBehandlingsstatus(@RequestParam(required = true) skalFeilePåKallMotBehandlingsstatus: Boolean): ResponseEntity<OppdatertStatus> {
         return ResponseEntity.ok(
             OppdatertStatus(
@@ -146,7 +142,6 @@ class KravStubController(
             )
         ]
     )
-    @Tag(name = "Skru av eller på vedlikeholdsmodus")
     @ResponseBody
     fun oppdaterVedlikeholdsmodus(@RequestBody vedlikeholdsmodus: Vedlikeholdsmodus): ResponseEntity<Any> {
         return kravStubService.oppdaterVedlikeholdsmodus(vedlikeholdsmodus)
@@ -195,7 +190,6 @@ class KravStubController(
             )
         ]
     )
-    @Tag(name = "Sjekk status på vedlikeholdsmodus")
     @ResponseBody
     fun liveness(): ResponseEntity<Any> {
         return kravStubService.liveness()
@@ -224,7 +218,6 @@ class KravStubController(
             )
         ]
     )
-    @Tag(name = "Stub for å sjekke behandlingsstatus for batch-uid")
     @ResponseBody
     fun hentBehandlingsstatus(@PathVariable batchUid: String): ResponseEntity<BehandlingsstatusResponse> {
         return kravStubService.hentBehandlingsstatus(batchUid)
