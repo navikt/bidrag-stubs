@@ -47,7 +47,8 @@ class ReskontroStubService {
                                 stoppUtbetaling = if ((1..2).random() > 1) "J" else "N"
                             )
                         )
-                    )
+                    ),
+                    retur = Retur(0)
                 )
             )
 
@@ -82,7 +83,8 @@ class ReskontroStubService {
                                 sumForskuddUtbetaltAndel = Random.Default.nextInt(0, 10000).toDouble(),
                             )
                         )
-                    )
+                    ),
+                    retur = Retur(0)
                 )
             )
 
