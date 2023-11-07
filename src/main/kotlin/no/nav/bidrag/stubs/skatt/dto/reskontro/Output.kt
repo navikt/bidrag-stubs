@@ -3,7 +3,7 @@ package no.nav.bidrag.stubs.skatt.dto.reskontro
 data class Output(
     val innParametre: Input,
     val skyldner: Skyldner? = null,
-    val bidragssak: Bidragssak,
+    val bidragssak: Bidragssak? = null,
     val transaksjoner: List<Transaksjon>? = null,
     val retur: Retur? = null,
     val gjeldendeBetalingsordning: GjeldendeBetalingsordning? = null,

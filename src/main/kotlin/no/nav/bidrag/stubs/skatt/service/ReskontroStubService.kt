@@ -1,10 +1,12 @@
 package no.nav.bidrag.stubs.skatt.service
 
 import no.nav.bidrag.commons.util.PersonidentGenerator
+import no.nav.bidrag.stubs.skatt.dto.reskontro.Aktivitet
 import no.nav.bidrag.stubs.skatt.dto.reskontro.BarnISak
 import no.nav.bidrag.stubs.skatt.dto.reskontro.Bidragssak
 import no.nav.bidrag.stubs.skatt.dto.reskontro.GjeldendeBetalingsordning
 import no.nav.bidrag.stubs.skatt.dto.reskontro.Input
+import no.nav.bidrag.stubs.skatt.dto.reskontro.NyBetalingsordning
 import no.nav.bidrag.stubs.skatt.dto.reskontro.Output
 import no.nav.bidrag.stubs.skatt.dto.reskontro.Retur
 import no.nav.bidrag.stubs.skatt.dto.reskontro.Skyldner
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.util.UUID
 import kotlin.random.Random
 
 @Service
@@ -108,29 +111,150 @@ class ReskontroStubService {
                 )
             }
 
-//            return ResponseEntity.ok(
-//                Output(
-//                    innParametre = input,
-//                    transaksjoner = listOf(
-//                        Transaksjon(
-//                            transaksjonsId = Random.Default.nextLong(),
-//                            kode = arrayOf("A1", "B1", "")[(1..10).random()]
-//                        )
-//                    )
-//                )
-//            )
+            return ResponseEntity.ok(
+                Output(
+                    innParametre = input,
+                    transaksjoner = listOf(
+                        Transaksjon(
+                            transaksjonsId = Random.Default.nextLong(),
+                            kode = "B1",
+                            beskrivelse = "Bidrag",
+                            dato = LocalDateTime.now().toString(),
+                            kildeFodselsOrgNr = PersonidentGenerator.genererPersonnummer(),
+                            mottakerFodslesOrgNr = PersonidentGenerator.genererPersonnummer(),
+                            opprinneligBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            restBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            valutaOpprinneligBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            valutakode = "NOK",
+                            bidragssaksnummer = input.bidragssaksnummer,
+                            periodeSisteDatoFom = LocalDateTime.now().withDayOfMonth(1).minusMonths(2).toString(),
+                            periodeSisteDatoTom = LocalDateTime.now().withDayOfMonth(1).minusMonths(2).toString(),
+                            barnFodselsnr = PersonidentGenerator.genererPersonnummer(LocalDate.of(2000, 1, 1)),
+                            bidragsId = UUID.randomUUID().toString(),
+                            soeknadsType = "Ukjent"
+                        ),
+                        Transaksjon(
+                            transaksjonsId = Random.Default.nextLong(),
+                            kode = "B1",
+                            beskrivelse = "Bidrag",
+                            dato = LocalDateTime.now().toString(),
+                            kildeFodselsOrgNr = PersonidentGenerator.genererPersonnummer(),
+                            mottakerFodslesOrgNr = PersonidentGenerator.genererPersonnummer(),
+                            opprinneligBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            restBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            valutaOpprinneligBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            valutakode = "NOK",
+                            bidragssaksnummer = input.bidragssaksnummer,
+                            periodeSisteDatoFom = LocalDateTime.now().withDayOfMonth(1).minusMonths(1).toString(),
+                            periodeSisteDatoTom = LocalDateTime.now().withDayOfMonth(1).minusMonths(1).toString(),
+                            barnFodselsnr = PersonidentGenerator.genererPersonnummer(LocalDate.of(2000, 1, 1)),
+                            bidragsId = UUID.randomUUID().toString(),
+                            soeknadsType = "Ukjent"
+                        )
+                    ),
+                    retur = Retur(0)
+                )
+            )
         }
         if (input.aksjonskode == 4) {
             if (input.fodselsOrgnr == null || input.datoFom == null || input.datoTom == null || input.maxAntallTransaksjoner == null) {
                 return ResponseEntity.ok(opprettOutputMedFeilkode(input, Retur(-1, "Mangler fodselsOrgnr/datoFom/datoTom/maxAntallTransaksjoner")))
             }
 
+            return ResponseEntity.ok(
+                Output(
+                    innParametre = input,
+                    transaksjoner = listOf(
+                        Transaksjon(
+                            transaksjonsId = Random.Default.nextLong(),
+                            kode = "B1",
+                            beskrivelse = "Bidrag",
+                            dato = LocalDateTime.now().toString(),
+                            kildeFodselsOrgNr = input.fodselsOrgnr,
+                            mottakerFodslesOrgNr = PersonidentGenerator.genererPersonnummer(),
+                            opprinneligBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            restBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            valutaOpprinneligBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            valutakode = "NOK",
+                            bidragssaksnummer = Random.Default.nextLong(),
+                            periodeSisteDatoFom = LocalDateTime.now().withDayOfMonth(1).minusMonths(2).toString(),
+                            periodeSisteDatoTom = LocalDateTime.now().withDayOfMonth(1).minusMonths(2).toString(),
+                            barnFodselsnr = PersonidentGenerator.genererPersonnummer(LocalDate.of(2000, 1, 1)),
+                            bidragsId = UUID.randomUUID().toString(),
+                            soeknadsType = "Ukjent"
+                        ),
+                        Transaksjon(
+                            transaksjonsId = Random.Default.nextLong(),
+                            kode = "B1",
+                            beskrivelse = "Bidrag",
+                            dato = LocalDateTime.now().toString(),
+                            kildeFodselsOrgNr = input.fodselsOrgnr,
+                            mottakerFodslesOrgNr = PersonidentGenerator.genererPersonnummer(),
+                            opprinneligBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            restBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            valutaOpprinneligBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            valutakode = "NOK",
+                            bidragssaksnummer = Random.Default.nextLong(),
+                            periodeSisteDatoFom = LocalDateTime.now().withDayOfMonth(1).minusMonths(1).toString(),
+                            periodeSisteDatoTom = LocalDateTime.now().withDayOfMonth(1).minusMonths(1).toString(),
+                            barnFodselsnr = PersonidentGenerator.genererPersonnummer(LocalDate.of(2000, 1, 1)),
+                            bidragsId = UUID.randomUUID().toString(),
+                            soeknadsType = "Ukjent"
+                        )
+                    ),
+                    retur = Retur(0)
+                )
+            )
         }
         if (input.aksjonskode == 5) {
             if (input.transaksjonsId == null || input.datoFom == null || input.datoTom == null || input.maxAntallTransaksjoner == null) {
                 return ResponseEntity.ok(opprettOutputMedFeilkode(input, Retur(-1, "Mangler transaksjonsId/datoFom/datoTom/maxAntallTransaksjoner")))
             }
 
+            return ResponseEntity.ok(
+                Output(
+                    innParametre = input,
+                    transaksjoner = listOf(
+                        Transaksjon(
+                            transaksjonsId = input.transaksjonsId,
+                            kode = "B1",
+                            beskrivelse = "Bidrag",
+                            dato = LocalDateTime.now().toString(),
+                            kildeFodselsOrgNr = PersonidentGenerator.genererPersonnummer(),
+                            mottakerFodslesOrgNr = PersonidentGenerator.genererPersonnummer(),
+                            opprinneligBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            restBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            valutaOpprinneligBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            valutakode = "NOK",
+                            bidragssaksnummer = Random.Default.nextLong(),
+                            periodeSisteDatoFom = LocalDateTime.now().withDayOfMonth(1).minusMonths(2).toString(),
+                            periodeSisteDatoTom = LocalDateTime.now().withDayOfMonth(1).minusMonths(2).toString(),
+                            barnFodselsnr = PersonidentGenerator.genererPersonnummer(LocalDate.of(2000, 1, 1)),
+                            bidragsId = UUID.randomUUID().toString(),
+                            soeknadsType = "Ukjent"
+                        ),
+                        Transaksjon(
+                            transaksjonsId = input.transaksjonsId,
+                            kode = "B1",
+                            beskrivelse = "Bidrag",
+                            dato = LocalDateTime.now().toString(),
+                            kildeFodselsOrgNr = PersonidentGenerator.genererPersonnummer(),
+                            mottakerFodslesOrgNr = PersonidentGenerator.genererPersonnummer(),
+                            opprinneligBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            restBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            valutaOpprinneligBeloep = Random.Default.nextInt(0, 10000).toDouble(),
+                            valutakode = "NOK",
+                            bidragssaksnummer = Random.Default.nextLong(),
+                            periodeSisteDatoFom = LocalDateTime.now().withDayOfMonth(1).minusMonths(1).toString(),
+                            periodeSisteDatoTom = LocalDateTime.now().withDayOfMonth(1).minusMonths(1).toString(),
+                            barnFodselsnr = PersonidentGenerator.genererPersonnummer(LocalDate.of(2000, 1, 1)),
+                            bidragsId = UUID.randomUUID().toString(),
+                            soeknadsType = "Ukjent"
+                        )
+                    ),
+                    retur = Retur(0)
+                )
+            )
         }
 
         return ResponseEntity.ok(
@@ -147,6 +271,73 @@ class ReskontroStubService {
                 return ResponseEntity.ok(opprettOutputMedFeilkode(input, Retur(-1, "Mangler fodselsOrgnr")))
             }
 
+            return ResponseEntity.ok(
+                Output(
+                    innParametre = input,
+                    skyldner = Skyldner(
+                        fodselsOrgnr = input.fodselsOrgnr,
+                        sumLopendeBidrag = Random.Default.nextInt(0, 10000).toDouble(),
+                        statusInnkrevingssak = "Ukjent",
+                        fakturamaate = "Vanlig giro",
+                        sisteAktivitet = "Annulert innbet",
+                        innbetBelopUfordelt = 0.0,
+                        gjeldIlagtGebyr = 0.0
+                    ),
+                    gjeldendeBetalingsordning = GjeldendeBetalingsordning(
+                        typeBetalingsordning = "Lønnstrekk",
+                        kildeOrgnummer = "889640782",
+                        kildeNavn = "NAV",
+                        datoSisteGiro = LocalDateTime.now().toString(),
+                        datoNesteForfall = LocalDateTime.now().plusMonths(1).toString(),
+                        belop = Random.Default.nextInt(0, 10000).toDouble(),
+                        datoSistEndret = LocalDateTime.now().minusMonths(6).toString(),
+                        aarsakSistEndret = "MAN",
+                        sumUbetalt = Random.Default.nextInt(0, 10000).toDouble()
+                    ),
+                    nyBetalingsordning = NyBetalingsordning(
+                        datoFraOgMed = LocalDateTime.now().toString(),
+                        belop = Random.Default.nextInt(0, 10000).toDouble()
+                    ),
+                    innkrevingssaksHistorikk = listOf(
+                        Aktivitet(
+                            beskrivelse = "OCR Innbetaling",
+                            fodselsOrgNr = input.fodselsOrgnr,
+                            navn = "Navnesen",
+                            dato = LocalDateTime.now().minusMonths(6).toString()
+                        ),
+                        Aktivitet(
+                            beskrivelse = "OCR Innbetaling",
+                            fodselsOrgNr = input.fodselsOrgnr,
+                            navn = "Navnesen",
+                            dato = LocalDateTime.now().minusMonths(5).toString()
+                        ),
+                        Aktivitet(
+                            beskrivelse = "OCR Innbetaling",
+                            fodselsOrgNr = input.fodselsOrgnr,
+                            navn = "Navnesen",
+                            dato = LocalDateTime.now().minusMonths(4).toString()
+                        ),
+                        Aktivitet(
+                            beskrivelse = "OCR Innbetaling",
+                            fodselsOrgNr = input.fodselsOrgnr,
+                            navn = "Navnesen",
+                            dato = LocalDateTime.now().minusMonths(3).toString()
+                        ),
+                        Aktivitet(
+                            beskrivelse = "OCR Innbetaling",
+                            fodselsOrgNr = input.fodselsOrgnr,
+                            navn = "Navnesen",
+                            dato = LocalDateTime.now().minusMonths(2).toString()
+                        ),
+                        Aktivitet(
+                            beskrivelse = "OCR Innbetaling",
+                            fodselsOrgNr = input.fodselsOrgnr,
+                            navn = "Navnesen",
+                            dato = LocalDateTime.now().minusMonths(1).toString()
+                        )
+                    )
+                )
+            )
         }
 
         return ResponseEntity.ok(
@@ -162,6 +353,13 @@ class ReskontroStubService {
             if (input.bidragssaksnummer == null || input.fodselsnrGjelder == null || input.fodselsnrNy == null) {
                 return ResponseEntity.ok(opprettOutputMedFeilkode(input, Retur(-1, "Mangler bidragssaksnummer/fodselsnrGjelder/fodselsnrNy")))
             }
+
+            return ResponseEntity.ok(
+                Output(
+                    innParametre = input,
+                    retur = Retur(0)
+                )
+            )
         }
         return ResponseEntity.ok(
             opprettOutputMedFeilkode(
