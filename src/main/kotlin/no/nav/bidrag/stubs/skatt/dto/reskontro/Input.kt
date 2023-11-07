@@ -20,10 +20,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Input(
 
     @field:Schema(
-        description = """
-            Aksjonskoden bestemmes ut i fra hvilken informasjon som skal uthentes.
-            I utgangspunktet er aksjonskoden ikke nødvendig da input er unike for alle mulige kall mot reskontro. 
-            """"
+        description = "Aksjonskoden bestemmes ut i fra hvilken informasjon som skal uthentes. I utgangspunktet er aksjonskoden ikke nødvendig da input er unike for alle mulige kall mot reskontro."
     )
     val aksjonskode: Int,
 
