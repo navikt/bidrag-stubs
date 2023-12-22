@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.1.5</version>
+    <version>3.2.1</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>no.nav</groupId>
@@ -15,16 +15,15 @@
   <name>bidrag-stubs</name>
   <properties>
     <java.version>21</java.version>
-    <kotlin.version>1.9.20</kotlin.version>
-    <bidrag-commons.version>20230516121246_1e60457</bidrag-commons.version>
-    <bidrag-transport.version>20231003130850_d31b8db</bidrag-transport.version>
+    <kotlin.version>1.9.21</kotlin.version>
+    <bidrag-commons.version>20231220091947_b4b43f0</bidrag-commons.version>
+    <bidrag-transport.version>20231221145650_4172b07</bidrag-transport.version>
     <logback-encoder.version>7.4</logback-encoder.version>
-    <token-support.version>3.1.8</token-support.version>
-    <springdoc-openapi-ui.version>2.2.0</springdoc-openapi-ui.version>
-    <springframework-cloud.version>4.0.2</springframework-cloud.version>
-    <token-support.version>3.1.0</token-support.version>
-    <bidrag-commons-test.version>1.20230511093912_dc35d81</bidrag-commons-test.version>
-
+    <springdoc-openapi-ui.version>2.3.0</springdoc-openapi-ui.version>
+    <springframework-cloud.version>4.1.0</springframework-cloud.version>
+    <token-support.version>3.2.0</token-support.version>
+    <bidrag-commons-test.version>1.20231220143255_5a8d330</bidrag-commons-test.version>
+    <ktlint.version>1.1.0</ktlint.version>
   </properties>
 
   <repositories>
@@ -39,16 +38,6 @@
       <url>https://packages.confluent.io/maven/</url>
     </repository>
   </repositories>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.yaml</groupId>
-        <artifactId>snakeyaml</artifactId>
-        <version>2.0</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
   <dependencies>
 
@@ -124,6 +113,24 @@
       <groupId>no.nav.bidrag</groupId>
       <artifactId>bidrag-commons</artifactId>
       <version>${bidrag-commons.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-tomcat</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.tomcat.embed</groupId>
+          <artifactId>tomcat-embed-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.tomcat.embed</groupId>
+          <artifactId>tomcat-embed-el</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jetty</artifactId>
     </dependency>
     <dependency>
       <groupId>no.nav.bidrag</groupId>
@@ -271,7 +278,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>${maven-antrun-plugin.version}</version>
         <executions>
           <execution>
             <id>ktlint</id>
@@ -279,7 +286,7 @@
             <configuration>
               <target name="ktlint">
                 <java taskname="ktlint" dir="${basedir}" fork="true" failonerror="true"
-                  classpathref="maven.plugin.classpath" classname="com.pinterest.ktlint.Main">
+                      classpathref="maven.plugin.classpath" classname="com.pinterest.ktlint.Main">
                   <arg value="src/**/*.kt"/>
                 </java>
               </target>
@@ -294,7 +301,7 @@
             <configuration>
               <target name="ktlint">
                 <java taskname="ktlint" dir="${basedir}" fork="true" failonerror="true"
-                  classpathref="maven.plugin.classpath" classname="com.pinterest.ktlint.Main">
+                      classpathref="maven.plugin.classpath" classname="com.pinterest.ktlint.Main">
                   <jvmarg value="--add-opens"/>
                   <jvmarg value="java.base/java.lang=ALL-UNNAMED"/>
                   <arg value="-F"/>
@@ -309,9 +316,9 @@
         </executions>
         <dependencies>
           <dependency>
-            <groupId>com.pinterest</groupId>
-            <artifactId>ktlint</artifactId>
-            <version>0.47.1</version>
+            <groupId>com.pinterest.ktlint</groupId>
+            <artifactId>ktlint-cli</artifactId>
+            <version>${ktlint.version}</version>
           </dependency>
           <!-- additional 3rd party ruleset(s) can be specified here -->
         </dependencies>

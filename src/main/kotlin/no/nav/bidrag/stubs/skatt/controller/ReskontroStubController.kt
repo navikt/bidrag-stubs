@@ -13,27 +13,33 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @ProtectedWithClaims(issuer = "maskinporten", claimMap = ["scope=nav:bidrag/v1/bidragskrav"])
 class ReskontroStubController(
-    private val reskontroStubService: ReskontroStubService
+    private val reskontroStubService: ReskontroStubService,
 ) {
-
     @PostMapping("/BisysResk/bidragssak")
-    fun hentBidragssak(@RequestBody input: Input): ResponseEntity<Output> {
+    fun hentBidragssak(
+        @RequestBody input: Input,
+    ): ResponseEntity<Output> {
         return reskontroStubService.hentBidragssak(input)
     }
 
     @PostMapping("/BisysResk/transaksjoner")
-    fun hentTransaksjoner(@RequestBody input: Input): ResponseEntity<Output> {
+    fun hentTransaksjoner(
+        @RequestBody input: Input,
+    ): ResponseEntity<Output> {
         return reskontroStubService.hentTransaksjoner(input)
     }
 
     @PostMapping("/BisysResk/innkrevingssak")
-    fun hentInnkrevingssak(@RequestBody input: Input): ResponseEntity<Output> {
+    fun hentInnkrevingssak(
+        @RequestBody input: Input,
+    ): ResponseEntity<Output> {
         return reskontroStubService.hentInnkrevingssak(input)
     }
 
     @PatchMapping("/BisysResk/endrerm")
-    fun endreRm(@RequestBody input: Input): ResponseEntity<Output> {
+    fun endreRm(
+        @RequestBody input: Input,
+    ): ResponseEntity<Output> {
         return reskontroStubService.endreRm(input)
     }
 }
-
