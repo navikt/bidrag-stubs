@@ -19,7 +19,6 @@ import java.time.format.DateTimeFormatter
 @OpenAPIDefinition(info = Info(title = "bidrag-stubs", version = "v1"), security = [SecurityRequirement(name = "bearer-key")])
 @SecurityScheme(bearerFormat = "JWT", name = "bearer-key", scheme = "bearer", type = SecuritySchemeType.HTTP)
 class DefaultConfiguration {
-
     @Bean
     fun jackson2ObjectMapperBuilder(): Jackson2ObjectMapperBuilder {
         return Jackson2ObjectMapperBuilder()
@@ -29,8 +28,8 @@ class DefaultConfiguration {
                     .addDeserializer(
                         YearMonth::class.java,
                         // Denne trengs for å parse år over 9999 riktig.
-                        YearMonthDeserializer(DateTimeFormatter.ofPattern("u-MM"))
-                    )
+                        YearMonthDeserializer(DateTimeFormatter.ofPattern("u-MM")),
+                    ),
             )
             .failOnUnknownProperties(false)
             .serializationInclusion(JsonInclude.Include.NON_NULL)

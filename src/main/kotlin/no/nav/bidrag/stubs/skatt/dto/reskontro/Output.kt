@@ -8,7 +8,7 @@ data class Output(
     val retur: Retur? = null,
     val gjeldendeBetalingsordning: GjeldendeBetalingsordning? = null,
     val nyBetalingsordning: NyBetalingsordning? = null,
-    val innkrevingssaksHistorikk: List<Aktivitet>? = emptyList()
+    val innkrevingssaksHistorikk: List<Aktivitet>? = emptyList(),
 )
 
 data class Aktivitet(
@@ -16,7 +16,7 @@ data class Aktivitet(
     val fodselsOrgNr: String? = null,
     val navn: String? = null,
     val dato: String? = null,
-    val belop: Double? = null
+    val belop: Double? = null,
 )
 
 data class BarnISak(
@@ -30,7 +30,7 @@ data class BarnISak(
     val sumForskuddUtbetaltAndel: Double? = null,
     val periodeSisteDatoFom: String? = null,
     val periodeSisteDatoTom: String? = null,
-    val stoppUtbetaling: String? = null
+    val stoppUtbetaling: String? = null,
 )
 
 data class Bidragssak(
@@ -38,7 +38,7 @@ data class Bidragssak(
     val bmGjeldFastsettelsesgebyr: Double,
     val bmGjeldRest: Double,
     val bpGjeldFastsettelsesgebyr: Double,
-    val perBarnISak: List<BarnISak>? = emptyList()
+    val perBarnISak: List<BarnISak>? = emptyList(),
 )
 
 data class GjeldendeBetalingsordning(
@@ -50,17 +50,17 @@ data class GjeldendeBetalingsordning(
     val belop: Double? = null,
     val datoSistEndret: String? = null,
     val aarsakSistEndret: String? = null,
-    val sumUbetalt: Double? = null
+    val sumUbetalt: Double? = null,
 )
 
 data class NyBetalingsordning(
     val datoFraOgMed: String? = null,
-    val belop: Double? = null
+    val belop: Double? = null,
 )
 
 data class Retur(
     val kode: Int,
-    val beskrivelse: String? = null
+    val beskrivelse: String? = null,
 )
 
 data class Skyldner(
@@ -70,7 +70,7 @@ data class Skyldner(
     val fakturamaate: String? = null,
     val sisteAktivitet: String? = null,
     val innbetBelopUfordelt: Double,
-    val gjeldIlagtGebyr: Double
+    val gjeldIlagtGebyr: Double,
 )
 
 data class Transaksjon(
@@ -89,5 +89,5 @@ data class Transaksjon(
     val periodeSisteDatoTom: String? = null,
     val barnFodselsnr: String? = null,
     val bidragsId: String? = null,
-    val soeknadsType: String? = null
+    val soeknadsType: String? = null,
 )

@@ -1,9 +1,9 @@
 package no.nav.bidrag.stubs.skatt.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import no.nav.bidrag.domain.enums.regnskap.Transaksjonskode
-import no.nav.bidrag.domain.enums.regnskap.behandlingsstatus.Batchstatus
-import no.nav.bidrag.domain.enums.regnskap.Årsakskode
+import no.nav.bidrag.domene.enums.regnskap.Transaksjonskode
+import no.nav.bidrag.domene.enums.regnskap.behandlingsstatus.Batchstatus
+import no.nav.bidrag.domene.enums.regnskap.Årsakskode
 import no.nav.bidrag.stubs.SECURE_LOGGER
 import no.nav.bidrag.transport.regnskap.behandlingsstatus.BehandlingsstatusResponse
 import no.nav.bidrag.transport.regnskap.behandlingsstatus.Feilmelding
@@ -18,9 +18,7 @@ import java.util.UUID
 
 @Service
 class KravStubService(private val objectMapper: ObjectMapper) {
-
     companion object {
-
         private val LOGGER = LoggerFactory.getLogger(KravStubService::class.java)
 
         @Volatile
@@ -37,7 +35,7 @@ class KravStubService(private val objectMapper: ObjectMapper) {
         if (vedlikeholdsmodusState.aktiv) {
             LOGGER.info(
                 "Vedlikeholdsmodus er på! Krav blir derfor ikke lagret. " +
-                    "\nÅrsakskode: ${vedlikeholdsmodusState.aarsakKode.name}, kommentar: ${vedlikeholdsmodusState.kommentar}"
+                    "\nÅrsakskode: ${vedlikeholdsmodusState.aarsakKode.name}, kommentar: ${vedlikeholdsmodusState.kommentar}",
             )
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build()
         }
@@ -62,17 +60,19 @@ class KravStubService(private val objectMapper: ObjectMapper) {
                             transaksjonskode = Transaksjonskode.B1,
                             delytelseId = null,
                             periode = null,
-                            feilmelding = "FagsystemId: [1234567]; [XX] step [XX123]. Batch: [$batchUid - ]. " +
-                                "Autentisering mot Maskinporten feilet: Url: https://test.maskinporten.no/token. invalid_grant Invalid assertion. Client authentication failed. Invalid JWT signature. " +
-                                "(trace_id: Bidrag-Stub_TestData)"
-                        )
+                            feilmelding =
+                                "FagsystemId: [1234567]; [XX] step [XX123]. Batch: [$batchUid - ]. " +
+                                    "Autentisering mot Maskinporten feilet: Url: https://test.maskinporten.no/token. " +
+                                    "invalid_grant Invalid assertion. Client authentication failed. Invalid JWT signature. " +
+                                    "(trace_id: Bidrag-Stub_TestData)",
+                        ),
                     ),
                     Batchstatus.Failed,
                     batchUid = batchUid,
                     1,
                     0,
-                    1
-                )
+                    1,
+                ),
             )
         } else {
             ResponseEntity.ok(BehandlingsstatusResponse(emptyList(), Batchstatus.Done, batchUid, 1, 0, 1))
@@ -86,9 +86,10 @@ class KravStubService(private val objectMapper: ObjectMapper) {
 
     fun liveness(): ResponseEntity<Any> {
         return when (vedlikeholdsmodusState.aktiv) {
-            true -> ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(
-                "Årsakode: ${vedlikeholdsmodusState.aarsakKode.name}, kommentar: ${vedlikeholdsmodusState.kommentar}"
-            )
+            true ->
+                ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(
+                    "Årsakode: ${vedlikeholdsmodusState.aarsakKode.name}, kommentar: ${vedlikeholdsmodusState.kommentar}",
+                )
 
             false -> ResponseEntity.ok().build()
         }

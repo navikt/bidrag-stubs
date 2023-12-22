@@ -28,12 +28,11 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("ekstern/skatt")
 @ProtectedWithClaims(issuer = "maskinporten", claimMap = ["scope=nav:bidrag/v1/bidragskrav"])
 class KravStubController(
-    val kravStubService: KravStubService
+    val kravStubService: KravStubService,
 ) {
-
     @PostMapping("/api/krav")
     @Operation(
-        description = "Stub for mottak av krav fra Bidrag-Regnskap som skal sendes til Skatteetaten."
+        description = "Stub for mottak av krav fra Bidrag-Regnskap som skal sendes til Skatteetaten.",
     )
     @ApiResponses(
         value = [
@@ -43,152 +42,162 @@ class KravStubController(
                 content = [
                     Content(
                         mediaType = "application/json",
-                        array = ArraySchema(schema = Schema(implementation = KravResponse::class))
-                    )
-                ]
+                        array = ArraySchema(schema = Schema(implementation = KravResponse::class)),
+                    ),
+                ],
             ),
             ApiResponse(
                 responseCode = "400",
                 description = "En av konteringene gikk ikke gjennom validering. Liste over feilede konteringer returneres.",
-                content = [Content()]
+                content = [Content()],
             ),
             ApiResponse(
                 responseCode = "401",
                 description = "Sikkerhetstoken er ikke gyldig",
-                content = [Content()]
+                content = [Content()],
             ),
             ApiResponse(
                 responseCode = "403",
                 description = "Sikkerhetstoken er ikke gyldig, eller det er ikke gitt adgang til kode 6 og 7 (nav-ansatt)",
-                content = [Content()]
+                content = [Content()],
             ),
             ApiResponse(
                 responseCode = "500",
                 description = "Ukjent feil.",
-                content = [Content()]
+                content = [Content()],
             ),
             ApiResponse(
                 responseCode = "503",
                 description = "Påløpsmodusen er på.",
-                content = [Content()]
-            )
-        ]
+                content = [Content()],
+            ),
+        ],
     )
     @ResponseBody
-    fun lagreKrav(@RequestBody kravliste: Kravliste): ResponseEntity<Any> {
+    fun lagreKrav(
+        @RequestBody kravliste: Kravliste,
+    ): ResponseEntity<Any> {
         return kravStubService.lagreKrav(kravliste)
     }
 
     @PutMapping("/api/feilPaKrav")
     @Operation(
-        description = "Endre om innsending av krav mot stub skal feile eller ikke."
+        description = "Endre om innsending av krav mot stub skal feile eller ikke.",
     )
-    fun endreFeilPåKrav(@RequestParam(required = true) skalFeilePåInnsendingAvKrav: Boolean): ResponseEntity<OppdatertStatus> {
+    fun endreFeilPåKrav(
+        @RequestParam(required = true) skalFeilePåInnsendingAvKrav: Boolean,
+    ): ResponseEntity<OppdatertStatus> {
         return ResponseEntity.ok(
             OppdatertStatus(
                 "Feil ved oversending av krav slått ${
-                if (kravStubService.oppdaterFeilPåKrav(
-                        skalFeilePåInnsendingAvKrav
-                    )
-                ) {
-                    "PÅ"
-                } else {
-                    "AV"
-                }
-                }"
-            )
+                    if (kravStubService.oppdaterFeilPåKrav(
+                            skalFeilePåInnsendingAvKrav,
+                        )
+                    ) {
+                        "PÅ"
+                    } else {
+                        "AV"
+                    }
+                }",
+            ),
         )
     }
 
     @PutMapping("/api/behandlingsstatus")
     @Operation(
-        description = "Endre om kall på behandlingsstatus med batch-uid skal feile eller ikke."
+        description = "Endre om kall på behandlingsstatus med batch-uid skal feile eller ikke.",
     )
-    fun endreBehandlingsstatus(@RequestParam(required = true) skalFeilePåKallMotBehandlingsstatus: Boolean): ResponseEntity<OppdatertStatus> {
+    fun endreBehandlingsstatus(
+        @RequestParam(required = true) skalFeilePåKallMotBehandlingsstatus: Boolean,
+    ): ResponseEntity<OppdatertStatus> {
         return ResponseEntity.ok(
             OppdatertStatus(
                 "Feil ved kall mot behandlingsstatus slått ${
-                if (kravStubService.oppdatertFeilPåBehandlingsstatus(skalFeilePåKallMotBehandlingsstatus)) "PÅ" else "AV"
-                }"
-            )
+                    if (kravStubService.oppdatertFeilPåBehandlingsstatus(skalFeilePåKallMotBehandlingsstatus)) "PÅ" else "AV"
+                }",
+            ),
         )
     }
 
     @PostMapping("api/vedlikeholdsmodus")
     @Operation(
-        description = "Stub for slå av og på vedlikeholdsmodus."
+        description = "Stub for slå av og på vedlikeholdsmodus.",
     )
     @ApiResponses(
         value = [
             ApiResponse(
                 responseCode = "200",
                 description = "Oppdateringen av vedlikeholdsmodus er OK.",
-                content = [Content()]
+                content = [Content()],
             ),
             ApiResponse(
                 responseCode = "401",
                 description = "Sikkerhetstoken er ikke gyldig",
-                content = [Content()]
+                content = [Content()],
             ),
             ApiResponse(
                 responseCode = "403",
                 description = "Sikkerhetstoken er ikke gyldig, eller det er ikke gitt adgang til kode 6 og 7 (nav-ansatt)",
-                content = [Content()]
+                content = [Content()],
             ),
             ApiResponse(
                 responseCode = "500",
                 description = "Ukjent feil.",
-                content = [Content()]
-            )
-        ]
+                content = [Content()],
+            ),
+        ],
     )
     @ResponseBody
-    fun oppdaterVedlikeholdsmodus(@RequestBody vedlikeholdsmodus: Vedlikeholdsmodus): ResponseEntity<Any> {
+    fun oppdaterVedlikeholdsmodus(
+        @RequestBody vedlikeholdsmodus: Vedlikeholdsmodus,
+    ): ResponseEntity<Any> {
         return kravStubService.oppdaterVedlikeholdsmodus(vedlikeholdsmodus)
     }
 
     @GetMapping("api/liveness")
     @Operation(
-        description = "Stub for å sjekke status på vedlikeholdsmodus."
+        description = "Stub for å sjekke status på vedlikeholdsmodus.",
     )
     @ApiResponses(
         value = [
             ApiResponse(
                 responseCode = "200",
                 description = "Vedlikeholdsmodus er ikke på.",
-                content = [Content()]
+                content = [Content()],
             ),
             ApiResponse(
                 responseCode = "400",
-                description = "Dersom én av konteringene ikke går gjennom validering forkastes alle konteringene i kravet og en liste over konteringer som har feilet returneres, sammen med informasjon om hva som er feil.\n" +
-                    "\n" +
-                    "Det er ingen garanti for at konteringer som ikke kommer med på listen over feilede konteringer er feilfrie.\n " +
-                    "NB: Dette er ikke implementert i stub.",
+                description =
+                    "Dersom én av konteringene ikke går gjennom validering forkastes alle konteringene i kravet " +
+                        "og en liste over konteringer som har feilet returneres, sammen med informasjon om hva som er feil.\n" +
+                        "\n" +
+                        "Det er ingen garanti for at konteringer som ikke kommer med på listen over feilede konteringer er feilfrie.\n " +
+                        "NB: Dette er ikke implementert i stub.",
                 content = [
-                    Content()
-                ]
+                    Content(),
+                ],
             ),
             ApiResponse(
                 responseCode = "401",
                 description = "Sikkerhetstoken er ikke gyldig",
-                content = [Content()]
+                content = [Content()],
             ),
             ApiResponse(
                 responseCode = "403",
                 description = "Sikkerhetstoken er ikke gyldig, eller det er ikke gitt adgang til kode 6 og 7 (nav-ansatt)",
-                content = [Content()]
+                content = [Content()],
             ),
             ApiResponse(
                 responseCode = "500",
                 description = "Ukjent feil.",
-                content = [Content()]
+                content = [Content()],
             ),
             ApiResponse(
                 responseCode = "503",
                 description = "Påløpsmodus er på.",
-                content = [Content()]
-            )
-        ]
+                content = [Content()],
+            ),
+        ],
     )
     @ResponseBody
     fun liveness(): ResponseEntity<Any> {
@@ -197,7 +206,7 @@ class KravStubController(
 
     @GetMapping("api/krav/{batchUid}")
     @Operation(
-        description = "Stub for å sjekke behandlingsstatus for batch-uid."
+        description = "Stub for å sjekke behandlingsstatus for batch-uid.",
     )
     @ApiResponses(
         value = [
@@ -207,19 +216,21 @@ class KravStubController(
                 content = [
                     Content(
                         mediaType = "application/json",
-                        array = ArraySchema(schema = Schema(implementation = BehandlingsstatusResponse::class))
-                    )
-                ]
+                        array = ArraySchema(schema = Schema(implementation = BehandlingsstatusResponse::class)),
+                    ),
+                ],
             ),
             ApiResponse(
                 responseCode = "503",
                 description = "Påløpsmodus er på.",
-                content = [Content()]
-            )
-        ]
+                content = [Content()],
+            ),
+        ],
     )
     @ResponseBody
-    fun hentBehandlingsstatus(@PathVariable batchUid: String): ResponseEntity<BehandlingsstatusResponse> {
+    fun hentBehandlingsstatus(
+        @PathVariable batchUid: String,
+    ): ResponseEntity<BehandlingsstatusResponse> {
         return kravStubService.hentBehandlingsstatus(batchUid)
     }
 }

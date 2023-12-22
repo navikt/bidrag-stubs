@@ -18,49 +18,42 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 
 data class Input(
-
     @field:Schema(
-        description = "Aksjonskoden bestemmes ut i fra hvilken informasjon som skal uthentes. I utgangspunktet er aksjonskoden ikke nødvendig da input er unike for alle mulige kall mot reskontro."
+        description =
+            "Aksjonskoden bestemmes ut i fra hvilken informasjon som skal uthentes. " +
+                "I utgangspunktet er aksjonskoden ikke nødvendig da input er unike for alle mulige kall mot reskontro.",
     )
     val aksjonskode: Int,
-
     @field:Schema(
-        description = "Må sette for kall mot bidragssak på saksnummer, transaksjoner på saksnummer, og på endreRm."
+        description = "Må sette for kall mot bidragssak på saksnummer, transaksjoner på saksnummer, og på endreRm.",
     )
     val bidragssaksnummer: Long? = null,
-
     @field:Schema(
-        description = "Må sette for kall mot bidragssak på personident, transaksjoner på personident, og for innkrevingssak."
+        description = "Må sette for kall mot bidragssak på personident, transaksjoner på personident, og for innkrevingssak.",
     )
     val fodselsOrgnr: String? = null,
-
     @field:Schema(
-        description = "Må sette for kall mot transaksjoner på transaksjonsid."
+        description = "Må sette for kall mot transaksjoner på transaksjonsid.",
     )
     val transaksjonsId: Long? = null,
-
     @field:Schema(
-        description = "Må sette for kall mot transaksjoner uansett input. Merk: Denne setter vi automatisk i bidrag-regnskap."
+        description = "Må sette for kall mot transaksjoner uansett input. Merk: Denne setter vi automatisk i bidrag-regnskap.",
     )
     val datoFom: String? = null,
-
     @field:Schema(
-        description = "Må sette for kall mot transaksjoner uansett input. Merk: Denne setter vi automatisk i bidrag-regnskap."
+        description = "Må sette for kall mot transaksjoner uansett input. Merk: Denne setter vi automatisk i bidrag-regnskap.",
     )
     val datoTom: String? = null,
-
     @field:Schema(
-        description = "Må sette for kall mot transaksjoner uansett input. Merk: Denne setter vi automatisk i bidrag-regnskap."
+        description = "Må sette for kall mot transaksjoner uansett input. Merk: Denne setter vi automatisk i bidrag-regnskap.",
     )
     val maxAntallTransaksjoner: Int? = null,
-
     @field:Schema(
-        description = "Må sette for kall mot endre rm. Dette er barnet i saken."
+        description = "Må sette for kall mot endre rm. Dette er barnet i saken.",
     )
     val fodselsnrGjelder: String? = null,
-
     @field:Schema(
-        description = "Må sette for kall mot endre rm. Dette er ny RM i saken."
+        description = "Må sette for kall mot endre rm. Dette er ny RM i saken.",
     )
-    val fodselsnrNy: String? = null
+    val fodselsnrNy: String? = null,
 )
