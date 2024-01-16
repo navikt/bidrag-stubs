@@ -7,3 +7,6 @@ azureAccessInbound:
   - application: bidrag-regnskap
     namespace: bidrag
     cluster: dev-gcp
+  - application: bidrag-regnskap
+    namespace: bidrag
+    cluster: prod-gcp
