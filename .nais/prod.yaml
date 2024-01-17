@@ -1,0 +1,6 @@
+name: bidrag-stubs
+ingress: https://bidrag-stubs.intern.nav.no
+azureAccessInbound:
+  - application: bidrag-regnskap
+    namespace: bidrag
+    cluster: prod-gcp
